@@ -15,8 +15,8 @@ export function createModel(database){
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'User', // Nome del modello a cui fa riferimento
-                key: 'id' // Chiave primaria del modello User
+                model: 'Users', 
+                key: 'id' 
             }
         },
         date: {
@@ -27,8 +27,8 @@ export function createModel(database){
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'Post', // Nome del modello a cui fa riferimento
-                key: 'id' // Chiave primaria del modello Post
+                model: 'Posts', 
+                key: 'id' 
             }
         },
     });

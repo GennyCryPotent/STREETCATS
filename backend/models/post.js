@@ -12,27 +12,27 @@ export function createModel(database){
             allowNull: false
         },
         description: {
-            type: DataTypes.TEXT, // testo lungo
+            type: DataTypes.TEXT, // long text
             allowNull: false
         },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'User', // Nome del modello a cui fa riferimento
-                key: 'id' // Chiave primaria del modello User
+                model: 'Users', // name of the model it references
+                key: 'id' // PK of the User model
             }
         },
         gender: {
             type: DataTypes.STRING,
-            allowNull: true // opzionale
+            allowNull: true // optional field, can be null
         },
         date: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
         },
         image: {
-            type: DataTypes.STRING, // URL o percorso relativo
+            type: DataTypes.STRING, 
             allowNull: false
         },
         latitude: {

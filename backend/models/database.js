@@ -9,7 +9,7 @@ const database = new Sequelize({
   logging: false
 });
 
-// models
+// models (NB: sequelize define models with plural names by default)
 createUserModel(database);
 createPostModel(database);
 createCommentModel(database);
