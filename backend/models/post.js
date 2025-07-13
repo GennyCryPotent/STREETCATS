@@ -32,7 +32,8 @@ export function createModel(database){
             defaultValue: DataTypes.NOW
         },
         image: {
-            type: DataTypes.STRING // URL o percorso relativo
+            type: DataTypes.STRING, // URL o percorso relativo
+            allowNull: false
         },
         latitude: {
             type: DataTypes.FLOAT,

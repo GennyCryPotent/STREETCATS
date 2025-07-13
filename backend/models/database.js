@@ -6,15 +6,15 @@ import { createModel as createCommentModel } from './comment.js';
 const database = new Sequelize({
   dialect: 'sqlite',
   storage: './database.db',
-  // logging: false
+  logging: false
 });
 
-// crea modelli
+// models
 createUserModel(database);
 createPostModel(database);
 createCommentModel(database);
 
-// definisci relazioni
+// relationships
 const { User, Post, Comment } = database.models;
 
 User.hasMany(Post, { foreignKey: 'userId' });
@@ -25,7 +25,5 @@ Comment.belongsTo(User, { foreignKey: 'userId' });
 
 Post.hasMany(Comment, { foreignKey: 'postId' });
 Comment.belongsTo(Post, { foreignKey: 'postId' });
-
-database.sync();
 
 export default database;
