@@ -14,8 +14,7 @@ createUserModel(database);
 createPostModel(database);
 createCommentModel(database);
 
-// relationships
-const { User, Post, Comment } = database.models;
+export const { User, Post, Comment } = database.models;
 
 User.hasMany(Post, { foreignKey: 'userId' });
 Post.belongsTo(User, { foreignKey: 'userId' });

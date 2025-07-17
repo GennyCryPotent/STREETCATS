@@ -1,9 +1,7 @@
-import database from './models/database.js';
+import { User, Post, Comment } from './models/database.js'; 
 
 export async function populateDatabase() {
   try {
-    // Recupero dei modelli
-    const { User, Post, Comment } = database.models;
 
     // Inserimento utenti
     const alice = await User.create({ username: 'Alice', age: 30, password: 'password123' });
