@@ -1,9 +1,9 @@
+import 'dotenv/config'; 
 import express from 'express';
 import cors from 'cors';
 import database from './models/database.js';
 import { populateDatabase } from './initDB.js';
 import { errorHandler } from './middleware/errorHandler.js';
-import dotenv from 'dotenv';
 
 //routes
 import { postRouter } from './routes/postRoutes.js';
@@ -11,7 +11,6 @@ import { commentRouter } from './routes/commentRoutes.js';
 import { authenticationRouter } from './routes/authRoutes.js';
 
 const app = express();
-dotenv.config(); 
 
 // Generic Middleware
 app.use(cors());
@@ -32,7 +31,7 @@ try {
 // Routes
 app.use('/auth', authenticationRouter);
 app.use('/posts', postRouter);
-app.use('/comments', commentRouter);
+app.use('/posts/:postId/comments', commentRouter);
 
 // Error Handling Middleware
 app.use(errorHandler);

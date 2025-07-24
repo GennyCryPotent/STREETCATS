@@ -1,4 +1,4 @@
-import { AuthController } from "../controllers/AuthController.js";
+import { AuthController } from "../controllers/authControllers.js";
 
 /**
  * This middleware ensures that the user is currently authenticated. If not,

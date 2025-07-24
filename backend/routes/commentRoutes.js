@@ -4,7 +4,7 @@ import { enforceAuthentication, ensureUserOwnsComment } from '../middleware/auth
 
 export const commentRouter = express.Router();
 
-commentRouter.get('/posts/:postId/comments', async (req, res, next) => {
+commentRouter.get('/', async (req, res, next) => {
     try {
         const comments = await CommentController.getCommentsByPostId(req);
         res.status(200).json(comments);
@@ -14,7 +14,7 @@ commentRouter.get('/posts/:postId/comments', async (req, res, next) => {
 });
 
 
-commentRouter.post('/posts/:postId/comments', enforceAuthentication, async (req, res, next) =>{
+commentRouter.post('/', enforceAuthentication, async (req, res, next) =>{
 
     try{
         const comment = await CommentController.createComment(req);
@@ -25,7 +25,7 @@ commentRouter.post('/posts/:postId/comments', enforceAuthentication, async (req,
     }
 });
 
-commentRouter.delete('/comments/:id', enforceAuthentication, ensureUserOwnsComment, async (req, res, next)=>{
+commentRouter.delete('/:id', enforceAuthentication, ensureUserOwnsComment, async (req, res, next)=>{
     try{
         const comment = await CommentController.deleteComment(req);
         res.status(201).json(comment);
@@ -35,7 +35,7 @@ commentRouter.delete('/comments/:id', enforceAuthentication, ensureUserOwnsComme
     }
 });
 
-commentRouter.put('/comments/:id', enforceAuthentication, ensureUserOwnsComment, async (req, res, next)=>{
+commentRouter.put('/:id', enforceAuthentication, ensureUserOwnsComment, async (req, res, next)=>{
     try{
         const comment = await CommentController.updateComment(req);
         res.status(201).json(comment);

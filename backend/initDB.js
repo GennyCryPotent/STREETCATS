@@ -1,11 +1,15 @@
-import { User, Post, Comment } from './models/database.js'; 
+import { User, Post, Comment } from './models/database.js';
+import bcrypt from 'bcrypt';
 
 export async function populateDatabase() {
   try {
+    // Password hashing
+    const alicePassword = await bcrypt.hash('password123', 10);
+    const bobPassword = await bcrypt.hash('password456', 10);
 
-    // Inserimento utenti
-    const alice = await User.create({ username: 'Alice', age: 30, password: 'password123' });
-    const bob = await User.create({ username: 'Bob', age: 25, password: 'password456' });
+    // Inserimento utenti con password hashata
+    const alice = await User.create({ username: 'Alice', age: 30, password: alicePassword });
+    const bob = await User.create({ username: 'Bob', age: 25, password: bobPassword });
 
     // Inserimento post
     const post1 = await Post.create({
@@ -40,26 +44,6 @@ export async function populateDatabase() {
       userId: alice.id,
       postId: post2.id
     });
-
-    // Query per stampare i dati
-    const users = await User.findAll();
-    for (const u of users) {
-      console.log(`User: ${u.username}, Age: ${u.age}`);
-    }
-
-    const posts = await Post.findAll({
-      include: [{ model: User, attributes: ['username'] }]
-    });
-    for (const p of posts) {
-      console.log(`Post: ${p.title}, Description: ${p.description}, Username: ${p.User.username}`);
-    }
-
-    const comments = await Comment.findAll({
-      include: [{ model: User, attributes: ['username'] }]
-    });
-    for (const c of comments) {
-      console.log(`Comment: ${c.text}, Username: ${c.User.username}, Post ID: ${c.postId}`);
-    }
 
     console.log('Dati iniziali inseriti correttamente.');
   } catch (error) {

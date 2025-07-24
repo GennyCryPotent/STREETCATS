@@ -14,7 +14,7 @@ postRouter.get('/', async (req, res, next) => {
 });
 
 
-postRouter.get('/posts/:id', async (req, res, next) => {
+postRouter.get('/:id', async (req, res, next) => {
     try {
         const post = await PostController.getPostById(req);
         res.status(200).json(post);
@@ -24,7 +24,7 @@ postRouter.get('/posts/:id', async (req, res, next) => {
 });
 
 
-postRouter.post("/posts", enforceAuthentication, async (req, res, next) => {
+postRouter.post("/", enforceAuthentication, async (req, res, next) => {
     try {
         const post = await PostController.createPost(req);
         res.status(201).json(post);
@@ -33,7 +33,7 @@ postRouter.post("/posts", enforceAuthentication, async (req, res, next) => {
     }
 });
 
-postRouter.delete('/posts/:id', enforceAuthentication, ensureUserOwnsPost, async (req, res, next) => {
+postRouter.delete('/:id', enforceAuthentication, ensureUserOwnsPost, async (req, res, next) => {
     try {
         const post = await PostController.deletePost(req);
         res.status(200).json(post);
@@ -42,7 +42,7 @@ postRouter.delete('/posts/:id', enforceAuthentication, ensureUserOwnsPost, async
     }
 });
 
-postRouter.put('/posts/:id', enforceAuthentication, ensureUserOwnsPost, async (req, res, next) => {
+postRouter.put('/:id', enforceAuthentication, ensureUserOwnsPost, async (req, res, next) => {
     try {
         const post = await PostController.updatePost(req);
         res.status(200).json(post);
