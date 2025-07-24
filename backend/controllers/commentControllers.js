@@ -23,13 +23,12 @@ export class CommentController {
      * @returns {Promise} 
      */
     static async getCommentsByPostId(req) {
+        const postId = req.params.postId;
         return Comment.findAll({
-            where: { postId: req.params.postId },
-            include: [
-                { model: User, attributes: ['username'] }
-            ]
+            where: { postId },
+            include: [{ model: User, attributes: ['username'] }]
         });
-    }
+}
 
     /**
      * Delete a comment by its ID

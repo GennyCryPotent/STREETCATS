@@ -31,7 +31,7 @@ try {
 // Routes
 app.use('/auth', authenticationRouter);
 app.use('/posts', postRouter);
-app.use('/posts/:postId/comments', commentRouter);
+app.use('/posts', commentRouter);
 
 // Error Handling Middleware
 app.use(errorHandler);
