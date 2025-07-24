@@ -38,11 +38,24 @@ export class CommentController {
      */
     static async deleteComment(req) {
         const comment = await Comment.findByPk(req.params.id);
-        if (comment && comment.userId === req.user.id) { // check if the comment belongs to the authenticated user
-            return comment.destroy();
-        } else {
-            throw new Error('Comment not found or does not belong to the user');
-        }
+        if (!comment) throw new Error('Comment not found');
+        await comment.destroy();
+        return comment;
     }
 
+    /**
+   * Update a comment by its ID
+   * @param {http.IncomingMessage} req
+   * @returns {Promise} 
+   */
+    static async updateComment(req) {
+        const comment = await Comment.findByPk(req.params.id);
+        if (!comment) throw new Error('Comment not fount');
+
+        if (req.body.text !== undefined) comment.text = req.body.text;
+
+        await comment.save();
+        return comment;
+    }
+    
 }

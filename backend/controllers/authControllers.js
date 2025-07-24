@@ -1,4 +1,7 @@
-import {User} from '../models/user.js';     
+import {User} from '../models/user.js';  
+import bcrypt from 'bcrypt';   
+import Jwt from 'jsonwebtoken';
+
 
 export class AuthController {
     /**
@@ -7,29 +10,22 @@ export class AuthController {
      * @param {http.ServerResponse} response 
      */
     static async checkCredentials(req, res) {
-        let user = User.build({ //build a new user object
-            username: req.body.usr, 
-            password: req.body.pwd
-        });
+        const user = await User.findOne({ where: { username: req.body.usr } });
 
-        let found = await User.findOne({
-            where: {
-                username: user.username,
-                password: user.password 
-            }
-        });
+        if (!user) return false;
 
-         return found !== null;
+        const passwordMatch = await bcrypt.compare(req.body.pwd, user.password);
+        return passwordMatch;
     }
 
-    static async saveUser(req, res){
+    
 
-        let user = new User({
-            username: req.body.usr, 
-            password: req.body.pwd
-        });
-
-        return user.save();
+    static async saveUser(req, res) {
+    const hashedPassword = await bcrypt.hash(req.body.pwd, 10); 
+    return User.create({
+        username: req.body.usr,
+        password: hashedPassword
+    });
     }
 
     static issueToken(username){

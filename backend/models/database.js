@@ -4,8 +4,8 @@ import { createModel as createUserModel } from './user.js';
 import { createModel as createCommentModel } from './comment.js';
 
 const database = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.db',
+  dialect: process.env.DB_DIALECT,
+  storage: process.env.DB_PATH,
   logging: false
 });
 

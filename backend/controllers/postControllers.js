@@ -22,7 +22,7 @@ export class PostController {
   /**
    * Find all posts with user details
    * @param {http.IncomingMessage} req
-   * @returns {Promise} Lista dei post
+   * @returns {Promise} 
    */
   static async getAllPosts(req) {
     return Post.findAll({
@@ -38,7 +38,7 @@ export class PostController {
   /**
    * Find a post by its ID, including user and comments
    * @param {http.IncomingMessage} req
-   * @returns {Promise} Il post trovato
+   * @returns {Promise} 
    */
   static async getPostById(req) {
     return Post.findByPk(req.params.id, {
@@ -56,17 +56,34 @@ export class PostController {
   /**
    * Delete a post by its ID
    * @param {http.IncomingMessage} req
-   * @returns {Promise} Il post eliminato
+   * @returns {Promise} 
    */
   static async deletePost(req) {
-    return new Promise((resolve, reject) => {
-      Post.findByPk(req.params.id).then(post => {
-        if (!post) return reject(new Error('Post non trovato'));
-        if (post.userId !== (await User.findOne({ where: { username: req.user } })).id) {
-          return reject(new Error('Non autorizzato'));
-        }
-        post.destroy().then(() => resolve(post));
-      }).catch(reject);
-    });
+    const post = await Post.findByPk(req.params.id);
+    if (!post) throw new Error('Post not found');
+    await post.destroy();
+    return post;
+  }
+
+  /**
+   * Update a post by its ID
+   * @param {http.IncomingMessage} req
+   * @returns {Promise} 
+   */
+  static async updatePost(req) {
+    const post = await Post.findByPk(req.params.id);
+    if (!post) throw new Error('Post not found');
+
+    // update only the fields that are provided in the request body
+    if (req.body.title !== undefined) post.title = req.body.title;
+    if (req.body.description !== undefined) post.description = req.body.description;
+    if (req.body.gender !== undefined) post.gender = req.body.gender;
+    if (req.body.image !== undefined) post.image = req.body.image;
+    if (req.body.latitude !== undefined) post.latitude = req.body.latitude;
+    if (req.body.longitude !== undefined) post.longitude = req.body.longitude;
+
+    await post.save();
+    return post;
   }
 }
+
