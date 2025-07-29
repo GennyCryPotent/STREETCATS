@@ -11,15 +11,14 @@ export class AuthController {
      */
     static async checkCredentials(req, res) {
         const user = await User.findOne({ where: { username: req.body.usr } });
+        
+        if (!user) return null;
 
-        if (!user) return false;
-
-        const passwordMatch = await bcrypt.compare(req.body.pwd, user.password);
-        return passwordMatch;
+        const match = await bcrypt.compare(req.body.pwd, user.password);
+        return match ? user : null;
     }
 
     
-
     static async saveUser(req, res) {
     const hashedPassword = await bcrypt.hash(req.body.pwd, 10); 
     return User.create({
@@ -28,9 +27,11 @@ export class AuthController {
     });
     }
 
-    static issueToken(username){
-        return Jwt.sign({user:username}, process.env.TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
+    static issueToken(user) {
+        const payload = { id: user.id, username: user.username };
+        return Jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '24h' });
     }
+
 
     static isTokenValid(token, callback){
         Jwt.verify(token, process.env.TOKEN_SECRET, callback);

@@ -4,6 +4,7 @@ import cors from 'cors';
 import database from './models/database.js';
 import { populateDatabase } from './initDB.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { PostController } from './controllers/postControllers.js';
 
 //routes
 import { postRouter } from './routes/postRoutes.js';
@@ -32,6 +33,14 @@ try {
 app.use('/auth', authenticationRouter);
 app.use('/posts', postRouter);
 app.use('/posts', commentRouter);
+app.get('/', async (req, res, next) => {
+    try {
+        const posts = await PostController.getAllPosts();
+        res.status(200).json(posts);
+    } catch (error) {
+        next(error);
+    }
+});
 
 // Error Handling Middleware
 app.use(errorHandler);

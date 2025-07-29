@@ -5,13 +5,12 @@ export const authenticationRouter = express.Router();
 
 // This route handles user authentication
 authenticationRouter.post('/', async (req, res) => {
-    let isAuthenticated = await AuthController.checkCredentials(req, res); //check if the user credentials are valid
-    if(isAuthenticated){
-        res.json(AuthController.issueToken(req.body.usr)); //issue a token if the credentials are valid
-    }
-    else{
-        res.status(401);
-        res.json( {error: "Invalid credentials. Try again."});
+    const user = await AuthController.checkCredentials(req, res);
+    if (user) {
+        const token = AuthController.issueToken(user); // pass full user object
+        res.json({ token });
+    } else {
+        res.status(401).json({ error: "Invalid credentials. Try again." });
     }
 });
 

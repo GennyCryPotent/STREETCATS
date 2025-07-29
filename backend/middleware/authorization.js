@@ -1,4 +1,5 @@
 import { AuthController } from "../controllers/authControllers.js";
+import { Post, User, Comment } from '../models/database.js';
 
 /**
  * This middleware ensures that the user is currently authenticated. If not,
@@ -39,6 +40,7 @@ export async function ensureUserOwnsComment(req, res, next){
 export async function ensureUserOwnsPost(req, res, next){
     const postId = req.params.id;
     const post = await Post.findByPk(postId);
+    console.log("Post trovato:", post?.toJSON(), "User ID:", req.user.id);
     if (post && post.userId === req.user.id) {
         next();
     } else {

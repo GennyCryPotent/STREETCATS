@@ -4,16 +4,6 @@ import { enforceAuthentication, ensureUserOwnsPost } from '../middleware/authori
 
 export const postRouter = express.Router();
 
-postRouter.get('/', async (req, res, next) => {
-    try {
-        const posts = await PostController.getAllPosts(req);
-        res.status(200).json(posts);
-    } catch (error) {
-       next(error); // Pass the error to the error handler middleware
-    }
-});
-
-
 postRouter.get('/:id', async (req, res, next) => {
     try {
         const post = await PostController.getPostById(req);
@@ -24,7 +14,7 @@ postRouter.get('/:id', async (req, res, next) => {
 });
 
 
-postRouter.post("/", enforceAuthentication, async (req, res, next) => {
+postRouter.post("/new", enforceAuthentication, async (req, res, next) => {
     try {
         const post = await PostController.createPost(req);
         res.status(201).json(post);
