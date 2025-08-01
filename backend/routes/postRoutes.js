@@ -1,6 +1,7 @@
 import express from 'express';
 import {PostController} from '../controllers/postControllers.js';
 import { enforceAuthentication, ensureUserOwnsPost } from '../middleware/authorization.js';
+import { uploadImage } from '../middleware/uploads.js';
 
 export const postRouter = express.Router();
 
@@ -39,4 +40,12 @@ postRouter.put('/:id', enforceAuthentication, ensureUserOwnsPost, async (req, re
     } catch (error) {
         next(error); // Pass the error to the error handler middleware
     }
+});
+
+postRouter.post('/uploadImage', enforceAuthentication, uploadImage, (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  res.status(200).json({ filename: `/uploads/${req.file.filename}` });
 });

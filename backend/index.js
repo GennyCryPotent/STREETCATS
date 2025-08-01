@@ -16,6 +16,7 @@ const app = express();
 // Generic Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 //Connecting Database
 try {

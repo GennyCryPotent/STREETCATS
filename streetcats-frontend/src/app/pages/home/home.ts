@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Navbar } from '../../shared/navbar/navbar';    
 import { Footer } from '../../shared/footer/footer';    
 import { PostCard } from '../../shared/post-card/post-card'  
+import { Post } from '../../models/post'; 
+import { PostService } from '../../service/rest-backend/post-service';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,17 @@ import { PostCard } from '../../shared/post-card/post-card'
 })
 export class Home {
 
-  posts = [
-    { title: 'Gatto nero', description: 'Avvistato al parco', latitude: 45.47, longitude: 9.18, imageUrl: '/cats1.jpg' },
-    { title: 'Gattino bianco', description: 'Molto piccolo', latitude: 45.46, longitude: 9.19, imageUrl: '/cats2.jpg'}
-];
+  posts: Post[] = []; // Initialize posts as an empty array
+
+  constructor(private postService: PostService) {}
+
+  
+  ngOnInit() { //this function is called when the component is initialized
+    this.postService.getAllPosts().subscribe(posts => {
+      this.posts = posts; // Assign the fetched posts to the component's posts property
+    });
+  }
+
+
 
 }
