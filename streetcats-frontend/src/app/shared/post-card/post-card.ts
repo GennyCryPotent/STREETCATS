@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-post-card',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './post-card.scss'
 })
 export class PostCard {
-
+  @Input() post!: any;
 }

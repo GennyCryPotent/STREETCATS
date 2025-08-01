@@ -1,0 +1,57 @@
+h1 {
+    background-color: #ffa500;
+    color: #222;
+    padding: 10px;
+    text-align: center;
+    margin: 0;
+    font-size: 32px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1 strong {
+    color: #ff0000;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 24px;
+}
+
+button[type="submit"] {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #1d699f;
+}
+
+.page-paragraph {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 16px auto;
+  text-align: center;
+  background: #fffbe7;
+  border-radius: 8px;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  padding: 32px 0;
+}
