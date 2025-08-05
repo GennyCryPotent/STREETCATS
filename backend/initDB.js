@@ -17,7 +17,7 @@ export async function populateDatabase() {
       description: 'Ho visto un gatto nero vicino al parco.',
       userId: alice.id,
       gender: 'maschio',
-      image: 'img/cat1.jpg',
+      image: 'uploads/1754058819154-18680950.jpg',
       latitude: 45.4642,
       longitude: 9.19
     });
@@ -27,7 +27,7 @@ export async function populateDatabase() {
       description: 'Gatta molto dolce in cerca di casa.',
       userId: bob.id,
       gender: 'femmina',
-      image: 'img/cat2.jpg',
+      image: 'img/express.png',
       latitude: 45.4654,
       longitude: 9.185
     });

@@ -2,17 +2,19 @@
 <app-navbar></app-navbar>
     <section class="hero">
   <h1>Benvenuto su STREETCATS</h1>
-  <p class="page-paragraph">
-    Avvista, condividi e aiuta i gatti della tua città!
-  </p>
+ 
+    <h2>Avvista, condividi e aiuta i gatti della tua città!</h2>
+  
 </section>
 
 <section class="map">
   <p class="page-paragraph">
     Visualizza la mappa per scoprire i gatti avvistati vicino a te.
+    <app-map-display></app-map-display>
   </p>
 </section>
 
+<h2>Ultimi Avvistamenti</h2>
     <section class="post-list">
         <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
     </section>
