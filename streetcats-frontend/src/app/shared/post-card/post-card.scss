@@ -1,19 +1,17 @@
 .post-card {
-  width: 320px;
-  height: 400px;
-  position: relative;
   width: 200px;
   height: 270px;
   border-radius: 16px;
   overflow: hidden;
-  background: #3d3c3d;
+  background: var(--site-dark);
   box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  position: relative;
 
   .post-card-bg {
     position: absolute;
     width: 250px;
     height: 180px;
-    background: #fff;
+    background: var(--site-light);
     filter: blur(50px);
     left: -50px;
     top: -50px;
@@ -48,7 +46,7 @@
     font-weight: bold;
     margin: 8px 0 4px 0;
     text-align: center;
-    color: #ffa500;
+    color: var(--site-primary);
   }
 
   .coords {

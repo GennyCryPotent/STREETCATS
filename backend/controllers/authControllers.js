@@ -10,19 +10,19 @@ export class AuthController {
      * @param {http.ServerResponse} response 
      */
     static async checkCredentials(req, res) {
-        const user = await User.findOne({ where: { username: req.body.usr } });
+        const user = await User.findOne({ where: { username: req.body.username } });
         
         if (!user) return null;
 
-        const match = await bcrypt.compare(req.body.pwd, user.password);
+        const match = await bcrypt.compare(req.body.password, user.password);
         return match ? user : null;
     }
 
     
     static async saveUser(req, res) {
-    const hashedPassword = await bcrypt.hash(req.body.pwd, 10); 
+    const hashedPassword = await bcrypt.hash(req.body.password, 10); 
     return User.create({
-        username: req.body.usr,
+        username: req.body.username,
         password: hashedPassword
     });
     }

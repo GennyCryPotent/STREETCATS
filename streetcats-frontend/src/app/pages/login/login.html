@@ -1,1 +1,43 @@
-<p>login works!</p>
+<app-navbar></app-navbar>
+
+<div class="login-page">
+  <div class="login-card">
+    <h2 class="login-title">Benvenuto su <strong>StreetCats</strong></h2>
+    <p class="login-subtitle">Accedi per segnalare e scoprire nuovi avvistamenti!</p>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label for="email">Username</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Inserisci l'username"
+          required
+          [(ngModel)]="username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Inserisci la password"
+          required
+          [(ngModel)]="password"
+        />
+      </div>
+
+      <button type="submit" class="btn-login">Accedi</button>
+
+      <p class="register-link">
+        Non hai un account?
+        <a routerLink="/register">Registrati qui</a>
+      </p>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>

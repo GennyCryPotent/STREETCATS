@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Auth } from '../../service/auth/auth';
-import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth/auth';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
-
 export class Navbar {
-  constructor(public auth: Auth, private router: Router) {}
+  constructor(public auth: AuthService) {}
+
+  isHome() {
+    return location.pathname === '/';
+  }
 
   logout() {
     this.auth.logout();
-  }
-
-  isHome(): boolean {
-    return this.router.url === '/';
   }
 }

@@ -1,8 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+// Importa Bootstrap SCSS (dalla cartella node_modules)
+@import "bootstrap/scss/bootstrap";
+
+// Importa CSS di Leaflet
 @import "leaflet/dist/leaflet.css";
 
-body {
+// Variabili globali CSS
+:root {
+  --site-primary: #FFA500;
+  --site-dark: #1C1B26;
+  --site-light: #F8F8F8;
+  --site-cream: #FFF8E1;
+}
+
+// Stili globali
+html, body {
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: var(--site-light);
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }

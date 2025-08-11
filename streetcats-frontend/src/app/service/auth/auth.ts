@@ -1,32 +1,36 @@
 import { Injectable } from '@angular/core';
-import {jwtDecode} from 'jwt-decode';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Auth {
-  
-  constructor(private router: Router) {}
+export class AuthService {
+  private apiUrl = 'http://localhost:3000/auth'; 
+  private tokenKey = 'auth_token';
 
-  isAuthenticated(): boolean {
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const decodedToken: any = jwtDecode(token); 
-      const expiration = decodedToken.exp;
-      return expiration !== undefined && Date.now() < expiration * 1000;
-    } catch (e) {
-      // Token non valido o malformato
-      return false;
-    }
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<{ token: string }>(this.apiUrl, { username, password })
+      .pipe(
+        tap(response => {
+          localStorage.setItem(this.tokenKey, response.token); // save token to localStorage
+        })
+      );
   }
-  return false;
-}
 
   logout() {
-    localStorage.removeItem("token");
-    this.router.navigate(['/']); // Redirect to home or login page after logout
+    localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/']);
   }
 
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
 }
