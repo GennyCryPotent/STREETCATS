@@ -21,6 +21,10 @@ export class AuthService {
       );
   }
 
+  signup(username: string, password: string): Observable<any> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/signup`, { username, password });
+  }
+
   logout() {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/']);

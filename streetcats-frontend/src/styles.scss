@@ -4,6 +4,10 @@
 // Importa CSS di Leaflet
 @import "leaflet/dist/leaflet.css";
 
+// Importa CSS di ngx-toastr
+@import 'ngx-toastr/toastr';
+
+
 // Variabili globali CSS
 :root {
   --site-primary: #FFA500;

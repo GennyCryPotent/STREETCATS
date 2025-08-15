@@ -2,16 +2,16 @@
 
 <div class="login-page">
   <div class="login-card">
-    <h2 class="login-title">Benvenuto su <strong>StreetCats</strong></h2>
+    <h2 class="login-title">Bentornato su <strong>StreetCats</strong></h2>
     <p class="login-subtitle">Accedi per segnalare e scoprire nuovi avvistamenti!</p>
 
     <form (ngSubmit)="onLogin()">
       <div class="form-group">
-        <label for="email">Username</label>
+        <label for="Username">Username</label>
         <input
           type="text"
-          id="email"
-          name="email"
+          id="Username"
+          name="Username"
           placeholder="Inserisci l'username"
           required
           [(ngModel)]="username"
@@ -34,7 +34,7 @@
 
       <p class="register-link">
         Non hai un account?
-        <a routerLink="/register">Registrati qui</a>
+        <a routerLink="/auth/signup">Registrati qui</a>
       </p>
     </form>
   </div>
