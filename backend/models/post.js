@@ -25,7 +25,7 @@ export function createModel(database){
         },
         gender: {
             type: DataTypes.STRING,
-            allowNull: true // optional field, can be null
+            allowNull: false // optional field, can be null
         },
         date: {
             type: DataTypes.DATE,

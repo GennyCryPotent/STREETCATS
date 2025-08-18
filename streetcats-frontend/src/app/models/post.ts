@@ -4,7 +4,8 @@ export interface Post {
   description?: string;
   latitude: number;
   longitude: number;
-  imageUrl?: string;
+  image?: string;
+  gender?: string
   createdAt?: Date;
   userId?: number;       
 }

@@ -7,7 +7,6 @@ export class PostController {
    * @returns {Promise} 
    */
   static async createPost(req) {
-    
 
     let post = Post.build({
       title: req.body.title,

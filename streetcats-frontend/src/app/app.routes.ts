@@ -11,15 +11,15 @@ export const routes: Routes = [
         component: Home,
         title: 'Streetcats - Home'
     },
-    {   
-        path: 'posts/:id', 
-        component: PostDetail, 
-        title: 'Streetcats - Post Detail' 
-    },
     {
         path: 'posts/new',
         component: NewPost,
         title: 'Streetcats - New Post',
+    },
+    {   
+        path: 'posts/:id', 
+        component: PostDetail, 
+        title: 'Streetcats - Post Detail' 
     },
     {
         path: 'auth',

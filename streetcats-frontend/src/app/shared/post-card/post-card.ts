@@ -12,7 +12,8 @@ export class PostCard {
   @Input() post!: any;
 
   getImageUrl(path: string): string {
-  return `http://localhost:3000/${path}`;
+    
+  return `http://localhost:3000${path}`;
 }
 
 }

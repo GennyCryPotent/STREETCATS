@@ -1,1 +1,86 @@
-<p>new-post works!</p>
+<app-navbar></app-navbar>
+
+<div class="new-post-container container-fluid">
+  <div class="row">
+    <!-- Sezione mappa -->
+    <div class="col-lg-6 col-md-12">
+      <div class="map-box shadow-sm">
+        <h4 class="box-title">Seleziona la posizione</h4>
+        <app-map-selector (coordinatesSelected)="onCoordinatesSelected($event)"></app-map-selector>
+        <div class="coords">
+          Latitudine: <span>{{ latitude || '--' }}</span> |
+          Longitudine: <span>{{ longitude || '--' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione form -->
+    <div class="col-lg-6 col-md-12">
+      <div class="form-box shadow-sm">
+        <h4 class="box-title">Crea un nuovo post</h4>
+
+        <form (ngSubmit)="onSubmit()">
+          <!-- Titolo -->
+          <div class="mb-3">
+            <label for="title" class="form-label">Titolo</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+              placeholder="Inserisci un titolo"
+              required
+              [(ngModel)]="title"
+            />
+          </div>
+
+          <!-- Descrizione -->
+          <div class="mb-3">
+            <label for="description" class="form-label">Descrizione</label>
+            <textarea
+              id="description"
+              name="description"
+              class="form-control"
+              rows="5"
+              placeholder="Descrivi l'avvistamento..."
+              required
+              [(ngModel)]="description"
+            ></textarea>
+          </div>
+
+          <!-- Immagine -->
+          <div class="mb-3">
+            <label for="image" class="form-label">Immagine</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              class="form-control"
+              (change)="onImageSelected($event)"
+              #imageInput
+            />
+          </div>
+
+          <!-- Sesso -->
+          <div class="mb-3">
+            <label for="gender" class="form-label">Sesso</label>
+            <select
+              id="gender"
+              name="gender"
+              class="form-select"
+              [(ngModel)]="gender"
+            >
+              <option value="maschio">Maschio</option>
+              <option value="femmina">Femmina</option>
+            </select>
+          </div>
+
+          <!-- Pulsante -->
+          <button type="submit" class="btn btn-primary w-100">Pubblica</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

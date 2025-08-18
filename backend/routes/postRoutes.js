@@ -2,6 +2,7 @@ import express from 'express';
 import {PostController} from '../controllers/postControllers.js';
 import { enforceAuthentication, ensureUserOwnsPost } from '../middleware/authorization.js';
 import { uploadImage } from '../middleware/uploads.js';
+import multer from 'multer';
 
 export const postRouter = express.Router();
 
@@ -42,10 +43,19 @@ postRouter.put('/:id', enforceAuthentication, ensureUserOwnsPost, async (req, re
     }
 });
 
-postRouter.post('/uploadImage', enforceAuthentication, uploadImage, (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
+postRouter.post('/uploadImage', enforceAuthentication, uploadImage, (req, res, next) => {
+    if (!req.file) {
+        return res.status(400).json({ error: 'Inserisci una immagine valida (solo .jpg, .jpeg, .png)' });
+    }
+    res.status(200).json({ filename: `/uploads/${req.file.filename}` });
+});
 
-  res.status(200).json({ filename: `/uploads/${req.file.filename}` });
+// Gestione degli errori di Multer
+postRouter.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: 'Errore durante il caricamento dell\'immagine' });
+    } else if (err.message === 'Only images are allowed') {
+        return res.status(400).json({ error: 'Inserisci una immagine valida (solo .jpg, .jpeg, .png)' });
+    }
+    next(err);
 });

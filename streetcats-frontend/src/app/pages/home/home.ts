@@ -25,6 +25,7 @@ export class Home {
   
   ngOnInit() { //this function is called when the component is initialized
     this.postService.getAllPosts().subscribe(posts => {
+      console.log(posts); // Log the fetched posts to the console
       this.posts = posts; // Assign the fetched posts to the component's posts property
     });
   }

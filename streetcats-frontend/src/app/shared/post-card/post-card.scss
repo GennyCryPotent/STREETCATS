@@ -1,69 +1,50 @@
-.post-card {
+.card {
   width: 200px;
-  height: 270px;
+  height: auto;
   border-radius: 16px;
   overflow: hidden;
   background: var(--site-dark);
   box-shadow: 0 4px 24px rgba(0,0,0,0.15);
   position: relative;
+}
 
-  .post-card-bg {
-    position: absolute;
-    width: 250px;
-    height: 180px;
-    background: var(--site-light);
-    filter: blur(50px);
-    left: -50px;
-    top: -50px;
-    z-index: 0;
-  }
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
 
-  .post-card-content {
-    position: absolute;
-    inset: 8px;
-    background: #323132;
-    border-radius: 14px;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
-    color: #fff;
-    opacity: 0.95;
-  }
+.card-body {
+  padding: 12px;
+  color: #fff;
+  background: #323132;
+  opacity: 0.95;
+}
 
-  .post-image {
-    width: 100%;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    background: #222;
-  }
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 8px 0 4px 0;
+  text-align: center;
+  color: var(--site-primary);
+}
 
-  h3 {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 8px 0 4px 0;
-    text-align: center;
-    color: var(--site-primary);
-  }
+.card-text {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-top: auto;
+  text-align: center;
+}
 
-  .coords {
-    font-size: 0.95rem;
-    color: #ccc;
-    margin-top: auto;
-    text-align: center;
-  }
+.btn-primary {
+  display: block;
+  margin-top: 10px;
+  text-align: center;
 }
 
 @media (max-width: 700px) {
-  .post-card {
+  .card {
     width: 95vw;
     max-width: 350px;
-    height: auto;
-  }
-  .post-list {
-    gap: 16px;
   }
 }
