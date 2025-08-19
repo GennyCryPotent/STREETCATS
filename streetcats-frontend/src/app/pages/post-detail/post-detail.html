@@ -1,1 +1,61 @@
-<p>post-detail works!</p>
+<app-navbar></app-navbar>
+
+<div class="post-detail-container">
+  
+  <div class="post-main">
+    <!-- Image -->
+    <div class="post-image">
+      <img [src]="getImageUrl(post?.image)" alt="Foto del gatto" />
+    </div>
+
+    <!-- Title and detail -->
+    <div class="post-header">
+      <h1 class="post-title">{{post?.title}}</h1>
+      <div class="post-meta">
+        <span>Autore: <strong>{{post?.User?.username}}</strong></span> |
+        <span>Sesso: <strong>{{post?.gender}}</strong></span> |
+        <span>Data: <strong>{{post?.createdAt | date:'dd/MM/yyyy'}}</strong></span>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="post-description">
+      <p>
+        {{post?.description}}
+      </p>
+    </div>
+  </div>
+
+ 
+  <div class="post-sidebar">
+    <!-- Details -->
+    <div class="post-extra">
+      <h3>Coordinate</h3>
+      <p><strong>Latitudine:</strong>{{post?.latitude}}</p>
+      <p><strong>Longitudine:</strong>{{post?.longitude}}</p>
+    </div>
+
+    <!-- Comments -->
+    <div class="post-comments">
+      <h3>Commenti</h3>
+
+      <!-- New comment -->
+      <div class="new-comment" *ngIf="authService.isAuthenticated()">
+        <textarea id="comment" name="comment" placeholder="Aggiungi un commento..." required [(ngModel)]="commentText"></textarea>
+        <button class="btn-comment" onclick="addComment()" >Invia</button>
+      </div>
+
+      <!-- List comments -->
+      <div class="comments-list">
+        <div class="comment" *ngFor="let comment of post?.Comments">
+            <p class = "comment-meta">
+                <strong>{{comment.User?.username}}</strong> - {{comment.date | date:'dd/MM/yyyy'}}
+            </p>
+            <p class="comment-text">{{comment.text}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

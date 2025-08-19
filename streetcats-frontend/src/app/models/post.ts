@@ -8,4 +8,18 @@ export interface Post {
   gender?: string
   createdAt?: Date;
   userId?: number;       
+  //user
+
+  User?: {
+    username: string;
+  };
+
+  //comments
+  Comments?: {
+    text: string;
+    date: string;
+    User?: {
+      username: string;
+    };
+  }[];
 }

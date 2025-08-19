@@ -4,6 +4,7 @@ import { PostDetail } from './pages/post-detail/post-detail';
 import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
 import { NewPost } from './pages/new-post/new-post';
+import { authGuard } from './guard/authGuard';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,7 @@ export const routes: Routes = [
         path: 'posts/new',
         component: NewPost,
         title: 'Streetcats - New Post',
+        canActivate: [authGuard] // Ensure this route is protected by the auth guard
     },
     {   
         path: 'posts/:id', 

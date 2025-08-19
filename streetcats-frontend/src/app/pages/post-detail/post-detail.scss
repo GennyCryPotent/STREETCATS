@@ -1,0 +1,129 @@
+.post-detail-container {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Colonna principale */
+.post-main {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-image img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  max-height: 400px;
+}
+
+.post-header {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.post-title {
+  font-size: 1.8rem;
+  margin: 0 0 8px 0;
+  color: #222;
+}
+
+.post-meta {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.post-description {
+  background: #fffbe7;
+  padding: 16px;
+  border-radius: 12px;
+  line-height: 1.6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 1.05rem;
+}
+
+/* Colonna laterale */
+.post-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-extra,
+.post-comments {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.post-extra h3,
+.post-comments h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #ffa500;
+}
+
+.new-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.new-comment textarea {
+  resize: none;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  min-height: 80px;
+}
+
+.btn-comment {
+  align-self: flex-end;
+  background: #ffa500;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-comment:hover {
+  background: #e69500;
+}
+
+/* Lista commenti */
+.comments-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.comment {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f9f9f9;
+}
+
+.comment-meta {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.comment-text {
+  font-size: 1rem;
+  color: #333;
+}
