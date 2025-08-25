@@ -8,14 +8,19 @@ export class CommentController {
      * @returns {Promise} 
      */
     static async createComment(req) {
-       let comment = Comment.build({
-            text: req.body.text,
-            postId: req.body.postId
-    });
+   
+   let comment = await Comment.create({
+        text: req.body.text,       
+        postId: req.body.postId,   
+        userId: req.user.id,       
+        date: new Date().toISOString()          
+   });
 
-        comment.userId = req.user.id; // with middleware, req.user is set to the authenticated user
-        return comment.save();
-    }
+   return await Comment.findByPk(comment.id, {
+      include: [{ model: User, attributes: ['username'] }]
+   });
+}
+
 
     /**
      * Get all comments for a specific post

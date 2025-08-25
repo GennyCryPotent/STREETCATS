@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div class="post-detail-container">
-  
+
   <div class="post-main">
     <!-- Image -->
     <div class="post-image">
@@ -19,14 +19,14 @@
     </div>
 
     <!-- Description -->
-    <div class="post-description">
+    <div class="post-description" [innerHTML]="getDescriptionHtml()">
       <p>
         {{post?.description}}
       </p>
     </div>
   </div>
 
- 
+
   <div class="post-sidebar">
     <!-- Details -->
     <div class="post-extra">
@@ -41,17 +41,20 @@
 
       <!-- New comment -->
       <div class="new-comment" *ngIf="authService.isAuthenticated()">
-        <textarea id="comment" name="comment" placeholder="Aggiungi un commento..." required [(ngModel)]="commentText"></textarea>
-        <button class="btn-comment" onclick="addComment()" >Invia</button>
+        <textarea id="comment" name="comment" placeholder="Aggiungi un commento..." required
+          [(ngModel)]="commentText"></textarea>
+        <button class="btn-comment" (click)="addComment()">Invia</button>
       </div>
 
       <!-- List comments -->
       <div class="comments-list">
         <div class="comment" *ngFor="let comment of post?.Comments">
-            <p class = "comment-meta">
-                <strong>{{comment.User?.username}}</strong> - {{comment.date | date:'dd/MM/yyyy'}}
-            </p>
-            <p class="comment-text">{{comment.text}}</p>
+          <p class="comment-meta">
+            <strong>{{comment.User?.username}}</strong> - {{comment.date | date:'dd/MM/yyyy'}}
+          </p>
+          <p class="comment-text">{{comment.text}}</p>
+
+
         </div>
       </div>
     </div>

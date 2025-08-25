@@ -23,53 +23,33 @@
           <!-- Titolo -->
           <div class="mb-3">
             <label for="title" class="form-label">Titolo</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              class="form-control"
-              placeholder="Inserisci un titolo"
-              required
-              [(ngModel)]="title"
-            />
+            <input type="text" id="title" name="title" class="form-control" placeholder="Inserisci un titolo" required
+              [(ngModel)]="title" />
           </div>
 
           <!-- Descrizione -->
           <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
-            <textarea
-              id="description"
-              name="description"
-              class="form-control"
-              rows="5"
-              placeholder="Descrivi l'avvistamento..."
-              required
-              [(ngModel)]="description"
-            ></textarea>
+            <textarea id="description" name="description" class="form-control" rows="5"
+              placeholder="Descrivi l'avvistamento..." required [(ngModel)]="description"></textarea>
+
+            <small class="text-muted">
+              Puoi usare <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown</a> per
+              grassetto (**testo**), corsivo (*testo*), titoli (# Titolo), link, ecc.
+            </small>
           </div>
 
           <!-- Immagine -->
           <div class="mb-3">
             <label for="image" class="form-label">Immagine</label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              class="form-control"
-              (change)="onImageSelected($event)"
-              #imageInput
-            />
+            <input type="file" id="image" name="image" class="form-control" (change)="onImageSelected($event)"
+              #imageInput />
           </div>
 
           <!-- Sesso -->
           <div class="mb-3">
             <label for="gender" class="form-label">Sesso</label>
-            <select
-              id="gender"
-              name="gender"
-              class="form-select"
-              [(ngModel)]="gender"
-            >
+            <select id="gender" name="gender" class="form-select" [(ngModel)]="gender">
               <option value="maschio">Maschio</option>
               <option value="femmina">Femmina</option>
             </select>

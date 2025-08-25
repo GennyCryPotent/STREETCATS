@@ -37,4 +37,16 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+  getUserId(): number | null { //get user id from token
+    const token = localStorage.getItem(this.tokenKey);
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])); // decodifica base64
+      return payload.id || null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

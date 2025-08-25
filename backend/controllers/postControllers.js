@@ -47,7 +47,7 @@ export class PostController {
         { model: User, attributes: ['username'] },
         {
           model: Comment,
-          attributes: ['text', 'date'],
+          attributes: ['id', 'text', 'date', 'userId'],
           include: [{ model: User, attributes: ['username'] }]
         }
       ]
