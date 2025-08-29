@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export interface Post {
   id?: number;  // Optional ID for the post      
   title: string;
@@ -15,11 +17,5 @@ export interface Post {
   };
 
   //comments
-  Comments?: {
-    text: string;
-    date: string;
-    User?: {
-      username: string;
-    };
-  }[];
+  Comments?: Comment[];
 }

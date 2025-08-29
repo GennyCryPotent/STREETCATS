@@ -12,6 +12,8 @@ import { CommentService } from '../../service/rest-backend/comment-service';
 import { Post } from '../../models/post';
 import { Comment } from '../../models/comment';
 import { AuthService } from '../../service/auth/auth';
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 
 @Component({
@@ -23,20 +25,22 @@ import { marked } from 'marked';
 export class PostDetail {
 
   constructor(
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
     private router: Router, 
     private toastr: ToastrService, 
     private postService: PostService, 
     public authService: AuthService, 
     public commentService: CommentService,
   ) { }
-  post: Post | null = null;
-  comment: Comment | null = null;
 
+  activeMenu: number | null = null;
+  post: Post | null = null;
   commentText: string = '';
 
 
   ngOnInit() {
-    const id = this.router.url.split('/').pop(); // Get the post ID from the URL
+    const id = this.route.snapshot.paramMap.get('id'); // Get the post ID from the URL
 
     if (id) {
       this.postService.getPostById(id).subscribe({
@@ -52,47 +56,63 @@ export class PostDetail {
     }
   }
 
-  addComment() { //implement the function to add a comment
-    if (!this.post) {
-      this.toastr.error('Impossibile aggiungere commento: post non trovato.', 'Errore');
-      return;
-    }
-    if (!this.commentText.trim()) {
-      this.toastr.error('Il commento non può essere vuoto.', 'Errore');
-      return;
-    }
-
-    const comment = {
-      text: this.commentText,
-      postId: this.post.id!,
-    };
-
-    this.commentService.createComment(comment, this.post.id!.toString()).subscribe({
-      next: (savedComment) => {
-        this.toastr.success('Commento aggiunto!');
-
-        // Ensure date is a string for compatibility
-        const commentToAdd = {
-          ...savedComment,
-          date: savedComment.date ?? new Date().toISOString()
-        };
-        this.post?.Comments?.unshift(commentToAdd);
-        this.commentText = '';
-      },
-      error: (err) => {
-        console.error('Error adding comment:', err);
-        this.toastr.error('Errore nell\'aggiunta del commento.', 'Errore');
-      }
-    });
-
+  addComment() {
+  if (!this.post) return;
+  if (!this.commentText.trim()) {
+    this.toastr.error('Il commento non può essere vuoto.', 'Errore');
+    return;
   }
 
-getDescriptionHtml(): string {
-  return this.post ? marked.parse(this.post.description || '') as string : '';
+  const payload = { text: this.commentText, postId: this.post.id! };
+
+  this.commentService.createComment(payload, this.post.id!).subscribe({
+    next: (savedComment) => {
+      this.toastr.success('Commento aggiunto!');
+      this.addLocalComment(savedComment);
+      this.commentText = '';
+    },
+    error: (err) => {
+      console.error('Error adding comment:', err);
+      this.toastr.error('Errore nell\'aggiunta del commento.', 'Errore');
+    }
+  });
 }
 
+  private addLocalComment(savedComment: Comment) { // Add the new comment to the local post object
+    const commentToAdd = {
+      ...savedComment,
+      date: savedComment.date ?? new Date().toISOString()
+    };
+    this.post!.Comments = [commentToAdd, ...(this.post!.Comments ?? [])];
+  }
+
+
+    delComment(commentId: number) {
+    if (!this.post?.id) return;
+
+    this.commentService.deleteComment(commentId, this.post.id).subscribe({
+      next: () => {
+        this.toastr.success('Commento eliminato!');
+        this.post!.Comments = (this.post!.Comments ?? []).filter(c => c.id !== commentId);
+      },
+      error: (err) => {
+        console.error('Error deleting comment:', err);
+        this.toastr.error('Errore nell\'eliminazione del commento.', 'Errore');
+      }
+    });
+  }
+
+  getDescriptionHtml(): SafeHtml {
+    return this.post ? this.sanitizer.bypassSecurityTrustHtml(marked.parse(this.post.description || '') as string): '';
+  }
+
   getImageUrl(path?: string): string {
-    return `http://localhost:3000${path}`;
+    return path ? `http://localhost:3000${path}` : 'assets/default-cat.png';
+  }
+
+  //track active menu for comment options
+  toggleMenu(commentId: number) {
+    this.activeMenu = this.activeMenu === commentId ? null : commentId;
   }
 
 

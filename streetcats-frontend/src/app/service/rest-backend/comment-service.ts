@@ -15,11 +15,15 @@ export class CommentService {
   private URL = 'http://localhost:3000/';
   private postEndpoint = 'posts/';
 
-  createComment(comment: Comment, postId: string): Observable<Comment> {
+  createComment(comment: Comment, postId: number): Observable<Comment> {
     return this.http.post<Comment>(`${this.URL}${this.postEndpoint}${postId}/comments`, comment);
   }
 
-  deleteComment(commentId: number, postId: string): Observable<void> {
-    return this.http.delete<void>(`${this.URL}${this.postEndpoint}${postId}/comments/${commentId}`);
+  deleteComment(commentId: number, postId: number): Observable<void> {
+    return this.http.delete<void>(`${this.URL}${this.postEndpoint}/comments/${commentId}`);
   }
+
+  updateComment(commentId: number, postId: number, updatedText: string): Observable<Comment> {
+    return this.http.put<Comment>(`${this.URL}${this.postEndpoint}/comments/${commentId}`, { text: updatedText });
+  } 
 }

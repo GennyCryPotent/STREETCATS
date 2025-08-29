@@ -49,10 +49,16 @@
       <!-- List comments -->
       <div class="comments-list">
         <div class="comment" *ngFor="let comment of post?.Comments">
-          <p class="comment-meta">
+          <p class="comment-meta" *ngIf="authService.getUserId() === comment.userId">
+            <strong >Tu</strong> - {{comment.date | date:'dd/MM/yyyy'}}
+            <button class="delete-icon" (click)="delComment(comment.id!)" title="Elimina commento">🗑️</button>
+          </p>
+          <p class="comment-meta" *ngIf="authService.getUserId() !== comment.userId">
             <strong>{{comment.User?.username}}</strong> - {{comment.date | date:'dd/MM/yyyy'}}
           </p>
           <p class="comment-text">{{comment.text}}</p>
+          
+          
 
 
         </div>
