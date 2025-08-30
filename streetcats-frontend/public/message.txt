@@ -1,0 +1,310 @@
+// ==UserScript==
+// @name         Instant Gaming Giveaway Auto-Participator (Any Page, Sequential Tabs)
+// @namespace    http://tampermonkey.net/
+// @version      4.0
+// @description  Partecipa automaticamente ai giveaway su Instant Gaming aprendo le tab in background una alla volta, da qualsiasi pagina
+// @author       Gabriele & ChatGPT
+// @match        https://www.instant-gaming.com/*
+// @grant        GM_openInTab
+// @grant        GM_notification
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // --- CONFIG ---
+    const config = {
+        autoParticipate: true,
+        autoSocial: true,
+        closeSocialTabs: true,
+        socialTabTimeout: 2000, // tempo per chiudere social
+        delayBetweenActions: 500, // pause tra azioni
+        nextGiveawayDelay: 500 // pausa tra giveaway
+    };
+
+    // --- LISTA GIVEAWAY ---
+    const giveawayUrls = [
+        "https://www.instant-gaming.com/it/giveaway/acre",
+        "https://www.instant-gaming.com/it/giveaway/aquiyahora",
+        "https://www.instant-gaming.com/it/giveaway/arlan360",
+        "https://www.instant-gaming.com/it/giveaway/biffa",
+        "https://www.instant-gaming.com/it/giveaway/billycherokee",
+        "https://www.instant-gaming.com/it/giveaway/blackpommes",
+        "https://www.instant-gaming.com/it/giveaway/boblennon",
+        "https://www.instant-gaming.com/it/giveaway/bugland",
+        "https://www.instant-gaming.com/it/giveaway/cabravoladora",
+        "https://www.instant-gaming.com/it/giveaway/corypheus",
+        "https://www.instant-gaming.com/it/giveaway/cyberluk",
+        "https://www.instant-gaming.com/it/giveaway/deladysigner",
+        "https://www.instant-gaming.com/it/giveaway/desastreshow",
+        "https://www.instant-gaming.com/it/giveaway/drunge",
+        "https://www.instant-gaming.com/it/giveaway/drwal",
+        "https://www.instant-gaming.com/it/giveaway/elesocces",
+        "https://www.instant-gaming.com/it/giveaway/elotrix",
+        "https://www.instant-gaming.com/it/giveaway/eusouocap",
+        "https://www.instant-gaming.com/it/giveaway/francescopardini",
+        "https://www.instant-gaming.com/it/giveaway/frankieslair",
+        "https://www.instant-gaming.com/it/giveaway/froz3n",
+        "https://www.instant-gaming.com/it/giveaway/gamewave",
+        "https://www.instant-gaming.com/it/giveaway/gca",
+        "https://www.instant-gaming.com/it/giveaway/giornogaming",
+        "https://www.instant-gaming.com/it/giveaway/guigui",
+        "https://www.instant-gaming.com/it/giveaway/heikki360",
+        "https://www.instant-gaming.com/it/giveaway/heystan",
+        "https://www.instant-gaming.com/it/giveaway/iconoblast",
+        "https://www.instant-gaming.com/it/giveaway/ilgattosultubo",
+        "https://www.instant-gaming.com/it/giveaway/impakt",
+        "https://www.instant-gaming.com/it/giveaway/infopoint-italia",
+        "https://www.instant-gaming.com/it/giveaway/instantgaming",
+        "https://www.instant-gaming.com/it/giveaway/instantgaminges",
+        "https://www.instant-gaming.com/it/giveaway/instantgamingitalia",
+        "https://www.instant-gaming.com/it/giveaway/instantgamingpl",
+        "https://www.instant-gaming.com/it/giveaway/instantgamingpt",
+        "https://www.instant-gaming.com/it/giveaway/instantgamingde",
+        "https://www.instant-gaming.com/it/giveaway/itermosifoni",
+        "https://www.instant-gaming.com/it/giveaway/j0nathan",
+        "https://www.instant-gaming.com/it/giveaway/jofrik99",
+        "https://www.instant-gaming.com/it/giveaway/jorgesprinter",
+        "https://www.instant-gaming.com/it/giveaway/k0mpa",
+        "https://www.instant-gaming.com/it/giveaway/kazhamania",
+        "https://www.instant-gaming.com/it/giveaway/kemist",
+        "https://www.instant-gaming.com/it/giveaway/kiszak",
+        "https://www.instant-gaming.com/it/giveaway/kuru",
+        "https://www.instant-gaming.com/it/giveaway/kworey",
+        "https://www.instant-gaming.com/it/giveaway/lynx",
+        "https://www.instant-gaming.com/it/giveaway/lusorkoeffizient",
+        "https://www.instant-gaming.com/it/giveaway/meetthemyth",
+        "https://www.instant-gaming.com/it/giveaway/merta",
+        "https://www.instant-gaming.com/it/giveaway/mfgaming",
+        "https://www.instant-gaming.com/it/giveaway/mitasims",
+        "https://www.instant-gaming.com/it/giveaway/muusoo",
+        "https://www.instant-gaming.com/it/giveaway/nardvillain",
+        "https://www.instant-gaming.com/it/giveaway/nerdovernews",
+        "https://www.instant-gaming.com/it/giveaway/nu89",
+        "https://www.instant-gaming.com/it/giveaway/nykk3",
+        "https://www.instant-gaming.com/it/giveaway/officialinvictus",
+        "https://www.instant-gaming.com/it/giveaway/phenrir",
+        "https://www.instant-gaming.com/it/giveaway/photoracertv",
+        "https://www.instant-gaming.com/it/giveaway/playerinside",
+        "https://www.instant-gaming.com/it/giveaway/playluque",
+        "https://www.instant-gaming.com/it/giveaway/pokemonmillennium",
+        "https://www.instant-gaming.com/it/giveaway/poraid",
+        "https://www.instant-gaming.com/it/giveaway/poro",
+        "https://www.instant-gaming.com/it/giveaway/pivi",
+        "https://www.instant-gaming.com/it/giveaway/quantoquevaicustar",
+        "https://www.instant-gaming.com/it/giveaway/robert",
+        "https://www.instant-gaming.com/it/giveaway/seals311",
+        "https://www.instant-gaming.com/it/giveaway/snedgie",
+        "https://www.instant-gaming.com/it/giveaway/soloumido",
+        "https://www.instant-gaming.com/it/giveaway/stradi",
+        "https://www.instant-gaming.com/it/giveaway/stelius",
+        "https://www.instant-gaming.com/it/giveaway/tahva",
+        "https://www.instant-gaming.com/it/giveaway/thetji",
+        "https://www.instant-gaming.com/it/giveaway/tombie",
+        "https://www.instant-gaming.com/it/giveaway/topgames",
+        "https://www.instant-gaming.com/it/giveaway/vicio",
+        "https://www.instant-gaming.com/it/giveaway/xariel",
+        "https://www.instant-gaming.com/it/giveaway/yanka",
+        "https://www.instant-gaming.com/it/giveaway/zazza23",
+        "https://www.instant-gaming.com/it/giveaway/zonaleros",
+        "https://www.instant-gaming.com/it/giveaway/huebi",
+        "https://www.instant-gaming.com/it/giveaway/carinazinhaa",
+        "https://www.instant-gaming.com/it/giveaway/pixelade",
+        "https://www.instant-gaming.com/it/giveaway/mello",
+        "https://www.instant-gaming.com/it/giveaway/azhunky",
+        "https://www.instant-gaming.com/it/giveaway/LOSIU",
+        "https://www.instant-gaming.com/it/giveaway/remedy",
+        "https://www.instant-gaming.com/it/giveaway/cryzenx",
+        "https://www.instant-gaming.com/it/giveaway/onlywaifu",
+        "https://www.instant-gaming.com/it/giveaway/elkai",
+        "https://www.instant-gaming.com/it/giveaway/vutomy",
+        "https://www.instant-gaming.com/it/giveaway/joepad17",
+        "https://www.instant-gaming.com/fr/giveaway/alkor",
+        "https://www.instant-gaming.com/fr/giveaway/codqg",
+        "https://www.instant-gaming.com/fr/giveaway/csgofr",
+        "https://www.instant-gaming.com/fr/giveaway/exomadara",
+        "https://www.instant-gaming.com/fr/giveaway/gamemovieland",
+        "https://www.instant-gaming.com/fr/giveaway/gmodfr",
+        "https://www.instant-gaming.com/fr/giveaway/nalfeinn",
+        "https://www.instant-gaming.com/fr/giveaway/ratsuper",
+        "https://www.instant-gaming.com/fr/giveaway/streamrunners",
+        "https://www.instant-gaming.com/fr/giveaway/supremeleader",
+        "https://www.instant-gaming.com/fr/giveaway/varg",
+        "https://www.instant-gaming.com/fr/giveaway/ramosturbo",
+        "https://www.instant-gaming.com/fr/giveaway/naito75"
+    ];
+
+    // --- VAR GLOBALI ---
+    let socialTabs = [];
+    let isProcessing = false;
+    let currentGiveawayIndex = 0;
+
+    // --- UTILITY ---
+    function isGiveawayPage() {
+        return window.location.href.includes("/giveaway/");
+    }
+
+    function updateStatus(msg) {
+        const el = document.getElementById('status');
+        if (el) el.textContent = msg;
+        console.log("IG Auto:", msg);
+    }
+
+    // --- PANNELLO CONTROLLO ---
+    function addControlPanel() {
+        const panel = document.createElement('div');
+        panel.id = 'ig-auto-panel';
+        panel.style.position = 'fixed';
+        panel.style.top = '10px';
+        panel.style.right = '10px';
+        panel.style.background = 'rgba(0,0,0,0.8)';
+        panel.style.color = 'white';
+        panel.style.padding = '10px';
+        panel.style.borderRadius = '5px';
+        panel.style.zIndex = '10000';
+        panel.style.fontFamily = 'Arial,sans-serif';
+        panel.style.fontSize = '12px';
+        panel.style.minWidth = '200px';
+
+        panel.innerHTML = `
+            <h3 style="margin:0 0 10px 0;font-size:14px;">Auto Giveaway</h3>
+            <div><label><input type="checkbox" id="autoParticipate" ${config.autoParticipate ? 'checked' : ''}> Auto-partecipazione</label></div>
+            <div><label><input type="checkbox" id="autoSocial" ${config.autoSocial ? 'checked' : ''}> Gestione social</label></div>
+            <div><label><input type="checkbox" id="closeSocialTabs" ${config.closeSocialTabs ? 'checked' : ''}> Chiudi tab social</label></div>
+            <button id="processAll" style="margin:5px 0;width:100%;">Processa tutti</button>
+            <button id="stopProcess" style="margin:5px 0;width:100%;">Ferma</button>
+            <div id="status" style="margin-top:10px;font-size:11px;">Pronto</div>
+        `;
+        document.body.appendChild(panel);
+
+        // EVENTI
+        document.getElementById('autoParticipate').addEventListener('change', e => config.autoParticipate = e.target.checked);
+        document.getElementById('autoSocial').addEventListener('change', e => config.autoSocial = e.target.checked);
+        document.getElementById('closeSocialTabs').addEventListener('change', e => config.closeSocialTabs = e.target.checked);
+
+        document.getElementById('processAll').addEventListener('click', startProcessingAll);
+        document.getElementById('stopProcess').addEventListener('click', stopProcessing);
+    }
+
+    // --- FUNZIONI PRINCIPALI ---
+    function participateInGiveaway() {
+        const btn = document.querySelector('button.validate');
+        if (btn && !btn.disabled) {
+            btn.click();
+            updateStatus("Partecipazione effettuata");
+            return true;
+        }
+        if (document.querySelector('.participation-state.has-participation')) {
+            updateStatus("Già partecipante");
+            return true;
+        }
+        updateStatus("Pulsante partecipazione non trovato");
+        return false;
+    }
+
+    function handleSocialMedia(callback) {
+        const socialLinks = document.querySelectorAll('.button.reward:not(.success):not(.disabled)');
+        if (socialLinks.length === 0) {
+            updateStatus("Nessun social da gestire");
+            if (callback) callback();
+            return;
+        }
+
+        updateStatus(`Trovati ${socialLinks.length} social`);
+        socialLinks.forEach(link => {
+            const url = link.getAttribute('href') || link.getAttribute('onclick')?.match(/window\.open\('([^']+)'/)?.[1];
+            if (url) {
+                const tab = GM_openInTab(url, { active: false, insert: false, setParent: true });
+                socialTabs.push(tab);
+            }
+        });
+
+        if (config.closeSocialTabs) {
+            setTimeout(() => {
+                socialTabs.forEach(t => { try { t.close(); } catch(e){} });
+                socialTabs = [];
+                if (callback) callback();
+            }, config.socialTabTimeout);
+        } else {
+            if (callback) callback();
+        }
+    }
+
+    function processCurrentGiveaway(autoClose = false) {
+        if (isProcessing) return;
+        isProcessing = true;
+        updateStatus("Elaborazione in corso...");
+
+        setTimeout(() => {
+            if (config.autoParticipate) participateInGiveaway();
+
+            if (config.autoSocial) {
+                setTimeout(() => {
+                    handleSocialMedia(() => {
+                        isProcessing = false;
+                        updateStatus("Completato");
+                        if (autoClose) window.close();
+                    });
+                }, config.delayBetweenActions);
+            } else {
+                isProcessing = false;
+                updateStatus("Completato");
+                if (autoClose) window.close();
+            }
+        }, config.delayBetweenActions);
+    }
+
+    // --- CICLO GIVEAWAY SEQUENZIALE ---
+    function startProcessingAll() {
+        updateStatus("Avvio elaborazione totale...");
+        currentGiveawayIndex = 0;
+        processAllGiveaways();
+    }
+
+    function processAllGiveaways() {
+        if (currentGiveawayIndex >= giveawayUrls.length) {
+            updateStatus("✅ Tutti i giveaway processati!");
+            return;
+        }
+
+        const url = giveawayUrls[currentGiveawayIndex];
+        updateStatus(`Apro giveaway ${currentGiveawayIndex + 1}/${giveawayUrls.length}: ${url}`);
+
+        const tab = GM_openInTab(url, { active: false, insert: false, setParent: true });
+
+        // controlla ogni 1s se la tab è chiusa
+        const checkTabClosed = setInterval(() => {
+            try {
+                if (tab.closed) {
+                    clearInterval(checkTabClosed);
+                    currentGiveawayIndex++;
+                    setTimeout(processAllGiveaways, config.nextGiveawayDelay);
+                }
+            } catch(e) {
+                console.log("Errore controllo tab:", e);
+            }
+        }, 1000);
+    }
+
+    function stopProcessing() {
+        isProcessing = false;
+        currentGiveawayIndex = giveawayUrls.length;
+        updateStatus("⛔ Elaborazione fermata");
+    }
+
+    // --- INIT ---
+    function init() {
+        addControlPanel();
+        if (isGiveawayPage()) {
+            processCurrentGiveaway(true); // se siamo in una pagina giveaway, parte da sola
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
