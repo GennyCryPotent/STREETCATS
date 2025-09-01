@@ -32,7 +32,8 @@ export class PostController {
           model: User,
           attributes: ['username']
         }
-      ]
+      ],
+      order: [['date', 'DESC']]
     });
   }
 

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Navbar } from '../../shared/navbar/navbar';
 import { Footer } from '../../shared/footer/footer';
 import { Router } from '@angular/router';
+import { MapPost } from '../../shared/map-post/map-post';
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
@@ -18,7 +19,7 @@ import { marked } from 'marked';
 
 @Component({
   selector: 'app-post-detail',
-  imports: [Navbar, Footer, RouterModule, DatePipe, CommonModule, FormsModule],
+  imports: [Navbar, Footer, RouterModule, DatePipe, CommonModule, FormsModule, MapPost],
   templateUrl: './post-detail.html',
   styleUrl: './post-detail.scss'
 })

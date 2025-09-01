@@ -3,7 +3,7 @@
     <section class="hero">
   <h1>Benvenuto su STREETCATS</h1>
  
-    <h2>Avvista, condividi e aiuta i gatti della tua città!</h2>
+    <h2>Avvistae e condividi i gatti della tua città!</h2>
   
 </section>
 
@@ -16,6 +16,6 @@
 
 <h2>Ultimi Avvistamenti</h2>
     <section class="post-list">
-        <app-post-card *ngFor="let post of posts" [post]="post"></app-post-card>
+        <app-post-card *ngFor="let post of posts | slice:0:4" [post]="post"></app-post-card>
     </section>
 <app-footer></app-footer>

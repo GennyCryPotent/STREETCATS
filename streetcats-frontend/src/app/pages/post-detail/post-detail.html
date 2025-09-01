@@ -30,10 +30,10 @@
   <div class="post-sidebar">
     <!-- Details -->
     <div class="post-extra">
-      <h3>Coordinate</h3>
-      <p><strong>Latitudine:</strong>{{post?.latitude}}</p>
-      <p><strong>Longitudine:</strong>{{post?.longitude}}</p>
+      <h3>Mappa</h3>
+        <app-map-post [latitude]="post?.latitude!" [longitude]="post?.longitude!"></app-map-post>
     </div>
+
 
     <!-- Comments -->
     <div class="post-comments">
