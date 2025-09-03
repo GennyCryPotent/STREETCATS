@@ -48,8 +48,9 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
+
 app.listen(PORT, () => {
-  console.log(`Server avviato su http://localhost:${process.env.PORT}`);
+  console.log(`Server avviato su http://localhost:${PORT}`);
 });
 
 

@@ -31,6 +31,7 @@ export class Signup {
 
       if (this.password.length < 4) {
         this.toastr.error('La password deve avere minimo 4 caratteri.', 'Errore di registrazione');
+        this.password = '';
         return;
       }
 
@@ -42,6 +43,8 @@ export class Signup {
         error: (SequelizeUniqueConstraintError) => {
           console.error('Signup error:', SequelizeUniqueConstraintError);
           this.toastr.error('Username già esistente, prova con un altro.', 'Errore di registrazione');
+          this.username = '';
+          this.password = '';
         },
     });
 

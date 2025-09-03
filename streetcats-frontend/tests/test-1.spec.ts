@@ -22,7 +22,6 @@ test('Navigazione e Login corretto', async ({ page }) => {
   await expect(page.getByRole('textbox', { name: 'Password' })).toBeEmpty();
   await page.getByRole('textbox', { name: 'Username' }).click();
   await page.getByRole('textbox', { name: 'Username' }).fill('Alice');
-  await 
   await page.getByRole('textbox', { name: 'Password' }).click();
   await page.getByRole('textbox', { name: 'Password' }).fill('password123');
   await page.getByRole('button', { name: 'Accedi' }).click();
@@ -61,7 +60,7 @@ test('Login errato', async ({ page }) => {
 });
 
 //Test 4
-test('Test navigazione e Registrazione corretta', async ({ page }) => {
+test('Navigazione e Registrazione corretta', async ({ page }) => {
   await page.goto('http://localhost:4200/');
   await page.getByRole('link', { name: 'Login' }).click();
   await expect(page.getByRole('link', { name: 'Registrati qui' })).toBeVisible();
@@ -76,4 +75,33 @@ test('Test navigazione e Registrazione corretta', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Password' }).fill('Gattino2003');
   await page.getByRole('button', { name: 'Registrati' }).click();
   await expect(page).toHaveURL('http://localhost:4200/auth');
+});
+
+//Test 5
+test('Registazione errata ', async ({ page }) => {
+  //existing username
+  await page.goto('http://localhost:4200/');
+  await page.getByRole('link', { name: 'Login' }).click();
+  await expect(page.getByRole('link', { name: 'Registrati qui' })).toBeVisible();
+  await page.getByRole('link', { name: 'Registrati qui' }).click();
+  await expect(page).toHaveURL('http://localhost:4200/auth/signup');
+  await page.getByRole('textbox', { name: 'Username' }).click();
+  await page.getByRole('textbox', { name: 'Username' }).fill('Alice');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Gattino5003');
+  await page.getByRole('button', { name: 'Registrati' }).click();
+  await expect(page.getByText('Username già esistente, prova con un altro.').first()).toBeVisible();
+  await expect(page).toHaveURL('http://localhost:4200/auth/signup');
+  await expect(page.getByRole('textbox', { name: 'Username' })).toBeEmpty();
+  await expect(page.getByRole('textbox', { name: 'Password' })).toBeEmpty();
+
+  //password with less than 4 characters
+  await page.getByRole('textbox', { name: 'Username' }).click();
+  await page.getByRole('textbox', { name: 'Username' }).fill('Darknine');
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('Cat');
+  await page.getByRole('button', { name: 'Registrati' }).click();
+  await expect(page.getByText('La password deve avere minimo 4 caratteri.').first()).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Password' })).toBeEmpty();
+  await expect(page).toHaveURL('http://localhost:4200/auth/signup');
 });
