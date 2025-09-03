@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
@@ -49,4 +50,22 @@ export class AuthService {
       return null;
     }
   }
+
+   verifyToken(token: string | null): boolean {
+    if(token !== null){
+      try{
+        const decodedToken = jwtDecode(token);
+        const expiration = decodedToken.exp;
+        if(expiration === undefined || Date.now() >= expiration * 1000){
+          return false; //expiration not available or in the past
+        } else {
+          return true; //token not expired
+        }
+      } catch(error) {  //invalid token
+        return false;
+      }
+    }
+    return false;
+  }
+
 }

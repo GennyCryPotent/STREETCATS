@@ -32,6 +32,8 @@ export class Login {
       },
       error: () => {
         this.toastr.error('Credenziali non valide, riprova.', 'Errore di accesso');
+        this.username = '';
+        this.password = '';
       }
     });
   }
