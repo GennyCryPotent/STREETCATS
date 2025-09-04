@@ -12,7 +12,8 @@
     <div class="post-header">
       <h1 class="post-title">{{post?.title}}</h1>
       <div class="post-meta">
-        <span>Autore: <strong>{{post?.User?.username}}</strong></span> |
+        <span *ngIf="authService.getUserId() !== post?.userId">Autore: <strong>{{post?.User?.username}}</strong></span> |
+        <span *ngIf="authService.getUserId() === post?.userId">Autore: <strong>Tu</strong></span> |
         <span>Sesso: <strong>{{post?.gender}}</strong></span> |
         <span>Data: <strong>{{post?.createdAt | date:'dd/MM/yyyy'}}</strong></span>
       </div>
