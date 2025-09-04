@@ -111,10 +111,6 @@ export class PostDetail {
     return path ? `http://localhost:3000${path}` : 'assets/default-cat.png';
   }
 
-  //track active menu for comment options
-  toggleMenu(commentId: number) {
-    this.activeMenu = this.activeMenu === commentId ? null : commentId;
-  }
 
 
 }

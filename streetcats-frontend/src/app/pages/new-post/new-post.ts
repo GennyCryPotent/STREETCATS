@@ -62,6 +62,7 @@ onImageSelected(event: Event) {
   onSubmit() {
     if (!this.title || !this.description || !this.image || !this.latitude || !this.longitude || !this.gender) {
       this.toastr.error('Per favore, compila tutti i campi.');
+      this.resetForm();
       return;
     }
 
@@ -88,4 +89,15 @@ onImageSelected(event: Event) {
     });
 
   }
+
+  resetForm() {
+    this.title = '';
+    this.description = '';
+    this.image = null;
+    this.imageUrl = '';
+    this.latitude = 0;
+    this.longitude = 0;
+    this.gender = '';
+  }
+  
 }
