@@ -127,19 +127,21 @@ test('Navigazione e caricamento pagina post (non loggato)', async ({ page }) => 
 
 //Test 7
 test('Navigazione e caricamento pagina post (loggato)', async ({ page }) => {
+  await page.goto('http://localhost:4200/');
   login(page);
   await page.waitForTimeout(2000);
-  await page.locator('.leaflet-marker-icon').nth(1).waitFor({ state: 'visible' });
-  await page.locator('.leaflet-marker-icon').nth(1).click({ force: true });
-  await page.locator('app-map-display').getByRole('link', { name: 'Visualizza' }).click(); //problem with firefox
+  await page.getByRole('button', { name: 'Marker' }).nth(1).click( { force: true });
+  await page.locator('app-map-display').getByRole('link', { name: 'Visualizza' }).click();
+  await page.waitForTimeout(2000);
   await expect(page.getByRole('textbox', { name: 'Aggiungi un commento...' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Invia' })).toBeVisible();
 });
 
 //Test 8
 test('Aggiunta e rimozione commento', async ({ page }) => {
+  await page.goto('http://localhost:4200/');
   login(page);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(10000);
   await page.goto('http://localhost:4200/posts/1');
   await page.getByRole('textbox', { name: 'Aggiungi un commento...' }).click();
   await page.getByRole('textbox', { name: 'Aggiungi un commento...' }).fill('Sono un test');
@@ -155,8 +157,9 @@ test('Aggiunta e rimozione commento', async ({ page }) => {
 
 //Test 9
 test('Aggiunta commento vuoto', async ({ page }) => {
+  await page.goto('http://localhost:4200/');
   login(page);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(10000);
   await page.goto('http://localhost:4200/posts/1');
   await page.getByRole('button', { name: 'Invia' }).click();
   await expect(page.getByText('Il commento non può essere vuoto.')).toBeVisible();
@@ -165,8 +168,9 @@ test('Aggiunta commento vuoto', async ({ page }) => {
 //Test 10
 test('Navigazione e creazione nuovo post', async ({ page }) => {
   // Login
+  await page.goto('http://localhost:4200/');
   login(page);
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(10000);
   
 
   // Navigate to New Post page and fill the form
@@ -195,8 +199,9 @@ test('Navigazione e creazione nuovo post', async ({ page }) => {
 //test 11
 test('Creazione nuovo post con dati mancanti (tutti i casi)', async ({ page }) => {
   // Login
+  await page.goto('http://localhost:4200/');
   login(page);
-  await page.waitForTimeout(2000);
+ await page.waitForTimeout(10000);
  
 
   // Navigate to New Post page and check empty form
@@ -249,10 +254,22 @@ test('Creazione nuovo post con dati mancanti (tutti i casi)', async ({ page }) =
   await page.getByLabel('Sesso').selectOption('femmina');
   await page.locator('#map').click();
   await expect(page.getByRole('button', { name: 'Marker' })).toBeVisible();
-  await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Pubblica' }).click();
   await expect(page.getByRole('alert', { name: 'Per favore, compila tutti i campi' }).last()).toBeVisible();
 
+});
+
+//test 12
+test('Logout', async ({ page }) => {
+  // Login
+  await page.goto('http://localhost:4200/');
+  login(page);
+ await page.waitForTimeout(10000);
+  await expect(page.getByText('Logout')).toBeVisible();
+  await page.getByText('Logout').click();
+  await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
+  await expect(page.getByText('Logout')).not.toBeVisible();
+  await expect(page).toHaveURL('http://localhost:4200/');
 });
 
 //utility function 
@@ -267,7 +284,6 @@ function createRandomString(length) {
 
 
 async function login(page, username: string = 'Alice', password: string = 'password123') {
-  await page.goto('http://localhost:4200/');
   await page.getByRole('link', { name: 'Login' }).click();
   await expect(page).toHaveURL('http://localhost:4200/auth');
   await expect(page.getByRole('textbox', { name: 'Username' })).toBeEmpty();
