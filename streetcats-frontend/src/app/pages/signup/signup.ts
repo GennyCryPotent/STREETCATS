@@ -37,7 +37,7 @@ export class Signup {
 
       this.authService.signup(this.username, this.password).subscribe({
         next: () => {
-          this.toastr.success(`Account creato con successo!`, `Benvenuto ${this.username}!`);
+          this.toastr.success(`Account creato con successo!`, `Benvenuto ${this.username}, effettua il login!`);
           this.router.navigate(['/auth']); // go to login page after successful signup
         },
         error: (SequelizeUniqueConstraintError) => {
