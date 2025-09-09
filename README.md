@@ -15,7 +15,7 @@ Per avviare l'applicazione in locale, segui i passaggi riportati di seguito. Ass
 
 ```
 ## Clone del repository
-git clone [https://github.com/tuo-username/streetcats.git](https://github.com/tuo-username/streetcats.git)
+git clone [https://github.com/GennyCryPotent/streetcats.git](https://github.com/GennyCryPotent/streetcats.git)
 
 ## Spostati nella cartella del backend, installa le dipendenze e avvia il server
 cd backend
