@@ -1,8 +1,8 @@
-# STREETCATS - Piattaforma di Avvistamenti Gatti
-Streetcats è un progetto universitario full-stack sviluppato per il corso di Tecnologie Web della Federico II. STREETCATS è una piattaforma social interattiva, che consente agli utenti di geolocalizzare, condividere e visualizzare avvistamenti di gatti randagi su una mappa interattiva. L'applicazione offre un'esperienza utente completa, includendo un sistema di autenticazione e registrazione siucro e la possibilità di caricare post con foto, promuovendo la creazione di una comunità attiva per la tutela dei felini.
+# STREETCATS - Stray Cat Sighting Platform
+Streetcats is a full-stack university project developed for the Web Technologies course at Federico II University. STREETCATS is an interactive social platform that allows users to geolocate, share, and view stray cat sightings on an interactive map. The application offers a complete user experience, including a secure authentication and registration system, and the ability to upload posts with photos, fostering an active community dedicated to the welfare of felines.
 
-# Tecnologie utilizzate
-Il progetto è stato sviluppato utilizzando le seguenti tecnologie:
+# Technologies Used
+The project was developed using the following technologies:
 
 Frontend: Angular 15+, Leaflet, Bootstrap
 
@@ -10,30 +10,34 @@ Backend: Express.js, SQLITE, Sequelize, Multer
 
 Testing: Playwright
 
-# Guida all'Installazione e Avvio
-Per avviare l'applicazione in locale, segui i passaggi riportati di seguito. Assicurati di avere Node.js e npm installati.
+# Installation and Startup Guide
+To run the application locally, follow the steps below. Make sure you have Node.js and npm installed.
 
 ```
-## Clone del repository
+## Clone the repository
 git clone [https://github.com/GennyCryPotent/STREETCATS.git](https://github.com/GennyCryPotent/STREETCATS.git)
 
-## Spostati nella cartella del backend, installa le dipendenze e avvia il server
+## Navigate to the "STREETCATS" folder, move to the backend directory, install dependencies, and start the server
 cd backend
 npm install
 npm start
 
-## In un nuovo terminale, sposta nella cartella del frontend, installa le dipendenze e avvia l'app
+## In a new terminal, navigate to the "STREETCATS" folder, move to the frontend directory, install dependencies, and start the app
 cd streetcats-frontend
 npm install
 ng serve
 ```
-# Test E2E
-Il progetto include test end-to-end completi, scritti con Playwright, per garantire il corretto funzionamento delle funzionalità critiche.
 
-Per eseguire i test, assicurati che il backend e il frontend siano già in esecuzione, quindi lancia il seguente comando dal terminale:
+# E2E Testing
+The project includes complete end-to-end tests, written with Playwright, to ensure that critical functionalities work correctly.
 
+To run the tests, make sure both the backend and frontend are already running, then execute the following command in your terminal:
 ```
 cd streetcats-frontend
-npx playwright test --ui 
+npx playwright test --ui
 ```
-Il flag --ui aprirà l'interfaccia grafica di Playwright per visualizzare i test in tempo reale.
+
+The --ui flag will open the Playwright graphical interface to visualize the tests in real-time.
+
+# License
+© 2024 Genny Cry Potent. Licensed under the MIT license.
