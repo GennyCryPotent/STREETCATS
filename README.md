@@ -18,22 +18,22 @@ Per avviare l'applicazione in locale, segui i passaggi riportati di seguito. Ass
 git clone [https://github.com/tuo-username/streetcats.git](https://github.com/tuo-username/streetcats.git)
 
 ## Spostati nella cartella del backend, installa le dipendenze e avvia il server
-cd streetcats/backend
+cd backend
 npm install
 npm start
 
 ## In un nuovo terminale, sposta nella cartella del frontend, installa le dipendenze e avvia l'app
-cd ../frontend
+cd streetcats-frontend
 npm install
 ng serve
-
-🧪 Test E2E
+```
+# Test E2E
 Il progetto include test end-to-end completi, scritti con Playwright, per garantire il corretto funzionamento delle funzionalità critiche.
 
 Per eseguire i test, assicurati che il backend e il frontend siano già in esecuzione, quindi lancia il seguente comando dal terminale:
 
-cd streetcats/frontend
-npx playwright test --ui 
-
-Il flag --ui aprirà l'interfaccia grafica di Playwright per visualizzare i test in tempo reale.
 ```
+cd streetcats-frontend
+npx playwright test --ui 
+```
+Il flag --ui aprirà l'interfaccia grafica di Playwright per visualizzare i test in tempo reale.
