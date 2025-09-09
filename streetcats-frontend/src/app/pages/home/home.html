@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <app-navbar></app-navbar>
-    <section class="hero">
-  <h1>Benvenuto su STREETCATS</h1>
- 
-    <h2>Avvistae e condividi i gatti della tua città!</h2>
-  
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Benvenuto su <span>STREETCATS</span></h1>
+  <p>Condividi e scopri gli avvistamenti dei gatti randagi vicino a te.</p>
 </section>
 
-<section class="map">
-  <p class="page-paragraph">
-    Visualizza la mappa per scoprire i gatti avvistati vicino a te.
-    <app-map-display></app-map-display>
-  </p>
+<!-- MAPPA -->
+<section class="map-section">
+  <h2>Esplora la mappa</h2>
+  <p class="subtitle">Visualizza la mappa per scoprire i gatti avvistati vicino a te.</p>
+  <app-map-display></app-map-display>
 </section>
 
-<h2>Ultimi Avvistamenti</h2>
-    <section class="post-list">
-        <app-post-card *ngFor="let post of posts | slice:0:4" [post]="post"></app-post-card>
-    </section>
+<!-- POST RECENTI -->
+<section class="posts-section">
+  <h2>Ultimi Avvistamenti</h2>
+  <div class="post-list">
+    <app-post-card
+      *ngFor="let post of posts | slice:0:4"
+      [post]="post">
+    </app-post-card>
+  </div>
+</section>
+
 <app-footer></app-footer>

@@ -2,7 +2,7 @@
   <img [src]="getImageUrl(post.image)" class="card-img-top" alt="Post Image">
   <div class="card-body">
     <h5 class="card-title">{{post.title}}</h5>
-    <p class="card-text">{{ post.description}}</p>
+    <p class="card-text" [innerHTML]="getDescriptionHtml()">{{ post.description}}</p>
     <a [routerLink]="['/posts', post.id]" class="btn btn-primary">Visualizza</a>
   </div>
 </div>

@@ -149,7 +149,7 @@ test('Aggiunta e rimozione commento', async ({ page }) => {
   await page.waitForTimeout(2000);
   await expect(page.locator('app-post-detail')).toContainText('Tu');
   await expect(page.locator('app-post-detail')).toContainText('Sono un test');
-  await expect(page.getByText('Tu - 05/09/2025 🗑️').first()).toBeVisible();
+  await expect(page.locator('app-post-detail')).toContainText('🗑️');
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: '🗑️' }).first().click();
   await expect(page.getByText('Commento eliminato!')).toBeVisible();

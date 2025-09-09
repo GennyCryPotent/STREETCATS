@@ -3,6 +3,8 @@ import * as L from 'leaflet';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { PostService } from '../../service/rest-backend/post-service';
 import { Post } from '../../models/post';
+import { marked } from 'marked';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-map-display',
@@ -13,7 +15,9 @@ import { Post } from '../../models/post';
 })
 export class MapDisplay implements OnInit {
 
-  @Input() post: Post | null = null;  // Post != null show map for single post, else show all posts
+  constructor(private postService: PostService) {}
+
+  @Input() post: Post | null = null;  // show all posts
 
   options: L.MapOptions = {
       layers: [
@@ -28,27 +32,23 @@ export class MapDisplay implements OnInit {
 
   layers: L.Layer[] = [];
 
-  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    if (this.post) { //single post (page post-datails)
-    
-      this.options.center = L.latLng(this.post.latitude, this.post.longitude);
-      this.layers = [
-        L.marker([this.post.latitude, this.post.longitude])
-          .bindPopup(`<b>${this.post.latitude}<br>${this.post.longitude}</b>`)
-      ];
-    } else {
       // all posts (homepage)
       this.postService.getAllPosts().subscribe((posts: Post[]) => {
         this.layers = posts.map((post) =>
           L.marker([post.latitude, post.longitude])
             .bindPopup(`
-              <b>${post.title}</b><br>${post.description}<br>
+              <b>${post.title}</b>${this.getDescriptionHtml(post)}
               <a href="/posts/${post.id}" class="popup-link">Visualizza</a>
             `)
         );
       });
     }
+
+
+   getDescriptionHtml(post: Post): SafeHtml {
+     return post ? marked.parse(post.description || '') as string : '';
   }
-}
+  
+  }

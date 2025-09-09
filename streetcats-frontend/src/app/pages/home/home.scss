@@ -1,57 +1,158 @@
-h1 {
-  background-color: var(--site-primary);
+
+:root {
+  --site-primary: #FFA500;
+  --site-dark: #1C1B26;
+  --site-light: #F8F8F8;
+  --site-cream: #FFF8E1;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  background: linear-gradient(90deg, var(--site-primary) 0%, #ff7b00 100%);
   color: var(--site-dark);
-  padding: 10px;
+  padding: 1.5rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+
+  h1 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    line-height: 1.05;
+    color: #222;
+
+    span, strong {
+      color: #fff;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+  }
+
+  p {
+    font-size: clamp(1rem, 1.7vw, 1.15rem);
+    margin: 0 0 1.25rem;
+    color: rgba(10,10,10,0.8);
+  }
+
+}
+
+/* MAP SECTION */
+.map-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 1100px;
+
+  h2 {
+    margin-bottom: 0.25rem;
+    color: var(--site-dark);
+  }
+
+  .subtitle {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  app-map-display,
+  .map-box, 
+  .map-container {
+    display: block;
+    width: 100%;
+    height: 480px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0,0,0,0.04);
+    border: 1px solid #ff8800;  
+    background: white;
+  }
+
+  @media (max-width: 900px) {
+    app-map-display,
+    .map-container {
+      height: 360px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    app-map-display,
+    .map-container {
+      height: 300px;
+    }
+  }
+}
+
+/* POSTS SECTION */
+.posts-section {
   text-align: center;
-  margin: 0;
-  font-size: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 2.5rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+
+  h2 {
+    margin-bottom: 0.5rem;
+    color: var(--site-dark);
+  }
+
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;          
+    margin-top: 1rem;
+    align-items: start;
+    justify-content: center;
+    padding-bottom: 1.5rem;
+  }
+
+  
+  app-post-card,
+  .post-card {
+    margin: 0 !important;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  
+  @media (max-width: 700px) {
+    .post-list {
+      gap: 10px;
+    }
+    app-post-card,
+    .post-card {
+      max-width: 95vw;
+    }
+  }
 }
 
-h1 strong {
-  color: red; // Se vuoi possiamo fare una var anche per "accent"
-}
-
-h2 {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 1.5rem;
-}
-
-button[type="submit"] {
-  display: block;
-  margin: 30px auto;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: var(--site-dark);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-  background-color: #333; // più chiaro del dark per hover
-}
 
 .page-paragraph {
-  font-size: 1.15rem;
+  font-size: 1rem;
   color: #444;
-  line-height: 1.7;
-  max-width: 700px;
-  margin: 16px auto;
+  line-height: 1.6;
+  max-width: 860px;
+  margin: 14px auto;
   text-align: center;
   background: var(--site-cream);
   border-radius: 8px;
-  padding: 16px 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 12px 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
 }
 
-.post-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  justify-content: center;
-  padding: 32px 0;
+
+.container-center {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+
+.post-list app-post-card:hover,
+.post-list .post-card:hover {
+  transform: translateY(-4px);
+  transition: transform 0.18s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }

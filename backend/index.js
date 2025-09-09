@@ -23,7 +23,7 @@ try {
   await database.authenticate(); //autenthication
   await database.sync({ force: true }); //sync models
  
-  await populateDatabase(); //populating database with initial data
+  // await populateDatabase(); //populating database with initial data for testing
 
   console.log('Connection has been established successfully.');
 } catch (error) {
