@@ -13,6 +13,7 @@ Testing: Playwright
 # Guida all'Installazione e Avvio
 Per avviare l'applicazione in locale, segui i passaggi riportati di seguito. Assicurati di avere Node.js e npm installati.
 
+```
 ## Clone del repository
 git clone [https://github.com/tuo-username/streetcats.git](https://github.com/tuo-username/streetcats.git)
 
@@ -35,3 +36,4 @@ cd streetcats/frontend
 npx playwright test --ui 
 
 Il flag --ui aprirà l'interfaccia grafica di Playwright per visualizzare i test in tempo reale.
+```
