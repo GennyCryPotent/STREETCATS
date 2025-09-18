@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { Navbar } from '../../shared/navbar/navbar';    
 import { Footer } from '../../shared/footer/footer';    
 import { PostCard } from '../../shared/post-card/post-card'  
@@ -12,7 +13,7 @@ import * as L from 'leaflet';
 @Component({
   selector: 'app-home',
   
-  imports: [CommonModule, Navbar, Footer, PostCard, LeafletModule, MapDisplay],
+  imports: [CommonModule, RouterModule, Navbar, Footer, PostCard, LeafletModule, MapDisplay],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })

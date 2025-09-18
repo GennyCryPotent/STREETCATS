@@ -1,4 +1,16 @@
-import 'dotenv/config'; 
+// Carico env PRIMA DI TUTTO
+import fs from 'fs';
+import dotenv from 'dotenv';
+
+if (fs.existsSync('.env')) {
+  dotenv.config({ path: '.env' });
+  console.log('✅ Caricato file .env');
+} else {
+  dotenv.config({ path: '.env.dummy' });
+  console.warn('⚠️ Nessun file .env trovato, uso .env.dummy');
+}
+
+
 import express from 'express';
 import cors from 'cors';
 import database from './models/database.js';

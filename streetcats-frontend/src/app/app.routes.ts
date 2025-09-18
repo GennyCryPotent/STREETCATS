@@ -4,6 +4,7 @@ import { PostDetail } from './pages/post-detail/post-detail';
 import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
 import { NewPost } from './pages/new-post/new-post';
+import { AllPosts} from './pages/all-post/all-posts';
 import { authGuard } from './guard/authGuard';
 
 export const routes: Routes = [
@@ -32,5 +33,10 @@ export const routes: Routes = [
         path: 'auth/signup',
         component: Signup,
         title: 'Streetcats - Signup'
+    },
+    {
+        path: 'all-posts',
+        component: AllPosts,
+        title: 'Streetcats - All Posts'
     },
 ];

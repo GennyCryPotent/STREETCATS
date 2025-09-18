@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+
+<div class="all-posts-container">
+  <h1>Tutti gli avvistamenti</h1>
+
+  <!-- Barra filtri -->
+  <div class="filters">
+    <input type="text" placeholder="Cerca per titolo..." [(ngModel)]="searchTerm" (input)="applyFilters()" />
+    <select [(ngModel)]="filterGender" (change)="applyFilters()">
+      <option value="">Tutti</option>
+      <option value="maschio">Maschio</option>
+      <option value="femmina">Femmina</option>
+    </select>
+    <select [(ngModel)]="sortOrder" (change)="applyFilters()">
+      <option value="desc">Più recenti</option>
+      <option value="asc">Più vecchi</option>
+    </select>
+  </div>
+
+  <!-- Lista post -->
+  <div class="post-grid">
+    <app-post-card *ngFor="let post of filteredPosts" [post]="post"></app-post-card>
+  </div>
+</div>
+
+<app-footer></app-footer>
