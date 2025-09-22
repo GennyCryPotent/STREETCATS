@@ -6,6 +6,20 @@ import { Post } from '../../models/post';
 import { marked } from 'marked';
 import { SafeHtml } from '@angular/platform-browser';
 
+const iconPath = 'assets/leaflet/images/'; 
+
+const iconDefault = L.icon({
+  iconRetinaUrl: iconPath + 'marker-icon-2x.png',
+  iconUrl: iconPath + 'marker-icon.png',
+  shadowUrl: iconPath + 'marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  shadowSize: [41, 41]
+});
+
+L.Marker.prototype.options.icon = iconDefault;
+
+
 @Component({
   selector: 'app-map-display',
   standalone: true,
