@@ -1,6 +1,5 @@
 import {User} from '../models/database.js';  
 import bcrypt from 'bcrypt';   
-import Jwt from 'jsonwebtoken';
 
 
 export class AuthController {
@@ -15,6 +14,7 @@ export class AuthController {
         if (!user) return null;
 
         const match = await bcrypt.compare(req.body.password, user.password);
+        
         return match ? user : null;
     }
 
@@ -27,14 +27,6 @@ export class AuthController {
     });
     }
 
-    static issueToken(user) {
-        const payload = { id: user.id, username: user.username };
-        return Jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-    }
-
-
-    static isTokenValid(token, callback){
-        Jwt.verify(token, process.env.TOKEN_SECRET, callback);
-    }
+    
 
 }

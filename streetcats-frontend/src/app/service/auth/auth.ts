@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { jwtDecode } from "jwt-decode";
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
@@ -9,63 +8,54 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/auth'; 
-  private tokenKey = 'auth_token';
+
+  private isAuthenticatedState = false;
+  private currentUser: { id: number; username: string } | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(this.apiUrl, { username, password })
-      .pipe(
-        tap(response => {
-          localStorage.setItem(this.tokenKey, response.token); // save token to localStorage
-        })
-      );
+    return this.http.post<{ user: { id: number; username: string } }>(this.apiUrl,{ username, password }, { withCredentials: true }).pipe(
+      tap(response => {
+        //set the authentication state and current user
+        this.isAuthenticatedState = true;
+        console.log('Response from login:', response); // Debug
+        this.currentUser = response.user;
+        console.log('Login successful:', this.currentUser);
+      })
+    );
   }
+
 
   signup(username: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/signup`, { username, password });
+    return this.http.post(`${this.apiUrl}/signup`, { username, password });
   }
 
-  logout() {
-    localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/']);
+  logout(): void {
+    this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true }).subscribe({
+      next: () => {
+        this.isAuthenticatedState = false;
+        this.currentUser = null;
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        console.log("Errore durante il logout, la sessione locale è stata resettata.");
+        this.isAuthenticatedState = false;
+        this.currentUser = null;
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+    return this.isAuthenticatedState;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  getUserId(): number | null {
+    return this.currentUser?.id ?? null;
   }
 
-  getUserId(): number | null { //get user id from token
-    const token = localStorage.getItem(this.tokenKey);
-    if (!token) return null;
-
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1])); // decodifica base64
-      return payload.id || null;
-    } catch (e) {
-      return null;
-    }
+  getUsername(): string | null {
+    return this.currentUser?.username ?? null;
   }
-
-   verifyToken(token: string | null): boolean {
-    if(token !== null){
-      try{
-        const decodedToken = jwtDecode(token);
-        const expiration = decodedToken.exp;
-        if(expiration === undefined || Date.now() >= expiration * 1000){
-          return false; //expiration not available or in the past
-        } else {
-          return true; //token not expired
-        }
-      } catch(error) {  //invalid token
-        return false;
-      }
-    }
-    return false;
-  }
-
 }

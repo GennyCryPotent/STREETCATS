@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Necessario per ngModel
+import { FormsModule } from '@angular/forms'; 
 import { AuthService } from '../../service/auth/auth';
 import { Navbar } from '../../shared/navbar/navbar';    
 import { Footer } from '../../shared/footer/footer'; 
@@ -24,7 +24,7 @@ export class Login {
   constructor(private authService: AuthService, private router: Router, private toastr : ToastrService) {}
 
   onLogin() {
-     console.log('Attempting login with:', this.username, this.password); // Debug
+    
     this.authService.login(this.username, this.password).subscribe({
       next: () => {
         this.router.navigate(['/']); // vai in home se login OK

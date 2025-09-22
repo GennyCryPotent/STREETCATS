@@ -42,11 +42,13 @@ export class PostDetail {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id'); // Get the post ID from the URL
-
+   
     if (id) {
       this.postService.getPostById(id).subscribe({
         next: (post) => {
           this.post = post; // Set the post details
+           console.log('Fetching post with ID:', this.post?.User);
+          console.log('User username:', this.authService.getUserId());
           console.log('Post details:', this.post);
         },
         error: (err) => {
@@ -88,7 +90,7 @@ export class PostDetail {
   }
 
 
-    delComment(commentId: number) {
+  delComment(commentId: number) {
     if (!this.post?.id) return;
 
     this.commentService.deleteComment(commentId, this.post.id).subscribe({
