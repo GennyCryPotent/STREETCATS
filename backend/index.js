@@ -13,6 +13,7 @@ import { commentRouter } from './routes/commentRoutes.js';
 import { authenticationRouter } from './routes/authRoutes.js';
 
 const app = express();
+const maxAgeCookie = process.env.MAX_AGE_COOKIE ? parseInt(process.env.MAX_AGE_COOKIE) : 1000 * 60; // Default to 1 minute if not set
 
 
 //config session
@@ -21,7 +22,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false, 
   cookie: {
-    maxAge: 1000 * 60 , // 5 minutes
+    maxAge: maxAgeCookie,
     httpOnly: true, 
     secure: false 
   }
@@ -42,7 +43,7 @@ try {
   await database.authenticate(); //autenthication
   await database.sync({ force: true }); //sync models
  
-  await populateDatabase(); //populating database with initial data for testing
+  //await populateDatabase(); //populating database with initial data for testing
 
   console.log('Connection has been established successfully.');
 } catch (error) {
