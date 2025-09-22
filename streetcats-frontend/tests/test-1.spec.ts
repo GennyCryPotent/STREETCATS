@@ -117,7 +117,7 @@ test('Registazione errata ', async ({ page }) => {
 test('Navigazione e caricamento pagina post (non loggato)', async ({ page }) => {
   await page.goto('http://localhost:4200/');
   await page.getByRole('button', { name: 'Marker' }).nth(1).click( { force: true });
-  await page.locator('app-map-display').getByRole('link', { name: 'Visualizza' }).click();
+  await page.locator('app-map-display').getByText('Visualizza').click();
   await page.waitForTimeout(2000);
   await expect(page.locator('div').filter({ hasText: '+− Leaflet | © OpenStreetMap' }).nth(3)).toBeVisible();
   await expect(page.getByRole('button', { name: 'Marker' })).toBeVisible();
@@ -131,7 +131,7 @@ test('Navigazione e caricamento pagina post (loggato)', async ({ page }) => {
   login(page);
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Marker' }).nth(1).click( { force: true });
-  await page.locator('app-map-display').getByRole('link', { name: 'Visualizza' }).click();
+  await page.locator('app-map-display').getByText('Visualizza').click();
   await page.waitForTimeout(2000);
   await expect(page.getByRole('textbox', { name: 'Aggiungi un commento...' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Invia' })).toBeVisible();
@@ -222,7 +222,7 @@ test('Creazione nuovo post con dati mancanti (tutti i casi)', async ({ page }) =
   await page.waitForTimeout(2000);
   await page.getByRole('button', { name: 'Pubblica' }).click();
   await expect(page.getByRole('alert', { name: 'Per favore, compila tutti i campi' }).last()).toBeVisible();
-  await page.waitForTimeout(2000);
+
 
   // missing description and image
   await page.getByRole('textbox', { name: 'Titolo' }).click();
@@ -230,10 +230,10 @@ test('Creazione nuovo post con dati mancanti (tutti i casi)', async ({ page }) =
   await page.getByLabel('Sesso').selectOption('femmina');
   await page.locator('#map').click();
   await expect(page.getByRole('button', { name: 'Marker' })).toBeVisible();
-  await page.waitForTimeout(2000);
+ 
   await page.getByRole('button', { name: 'Pubblica' }).click();
   await expect(page.getByRole('alert', { name: 'Per favore, compila tutti i campi' }).last()).toBeVisible();
-  await page.waitForTimeout(2000);
+ 
 
   // missing geolocation and image
   await page.getByRole('textbox', { name: 'Titolo' }).click();
@@ -241,10 +241,10 @@ test('Creazione nuovo post con dati mancanti (tutti i casi)', async ({ page }) =
   await page.getByRole('textbox', { name: 'Descrizione' }).click();
   await page.getByRole('textbox', { name: 'Descrizione' }).fill('Questo è un test con valori mancanti');
   await page.getByLabel('Sesso').selectOption('femmina');
-  await page.waitForTimeout(2000);
+
   await page.getByRole('button', { name: 'Pubblica' }).click();
   await expect(page.getByRole('alert', { name: 'Per favore, compila tutti i campi' }).last()).toBeVisible();
-  await page.waitForTimeout(2000);
+
 
   // missing gender and image
   await page.getByRole('textbox', { name: 'Titolo' }).click();
@@ -270,6 +270,37 @@ test('Logout', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
   await expect(page.getByText('Logout')).not.toBeVisible();
   await expect(page).toHaveURL('http://localhost:4200/');
+});
+
+//test 13
+test('Filtraggio post per nome', async ({ page }) => {
+  await page.goto('http://localhost:4200/all-posts');
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Gatta bianca' })).toBeVisible();
+  await page.getByRole('textbox', { name: 'Cerca per titolo...' }).click();
+  await page.getByRole('textbox', { name: 'Cerca per titolo...' }).fill('Gatta bianca');
+  await expect(page.getByRole('heading', { name: 'Gatta bianca' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).not.toBeVisible();
+  await page.getByRole('textbox', { name: 'Cerca per titolo...' }).click();
+  await page.getByRole('textbox', { name: 'Cerca per titolo...' }).fill('');
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+});
+
+//test 14
+test('Filtraggio post per sesso', async ({ page }) => {
+  await page.goto('http://localhost:4200/all-posts');
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+  await page.getByRole('combobox').first().selectOption('maschio');
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Gatta bianca' })).not.toBeVisible();
+  await page.getByRole('combobox').first().selectOption('femmina');
+  await expect(page.getByRole('heading', { name: 'Gatta bianca' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).not.toBeVisible();
+  await page.getByRole('combobox').first().selectOption('');
+  await expect(page.getByRole('heading', { name: 'Gatta bianca' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Primo avvistamento' })).toBeVisible();
 });
 
 //utility function 

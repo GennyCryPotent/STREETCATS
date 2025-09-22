@@ -1,5 +1,4 @@
-import fs from 'fs';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import session from 'express-session';
 import express from 'express';
 import cors from 'cors';
@@ -15,22 +14,14 @@ import { authenticationRouter } from './routes/authRoutes.js';
 
 const app = express();
 
-//upload file env
-if (fs.existsSync('.env')) {
-  dotenv.config({ path: '.env' });
-  console.log('Caricato file .env');
-} else {
-  dotenv.config({ path: '.env.dummy' });
-  console.log('Nessun file .env trovato, uso .env.dummy');
-}
 
 //config session
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'cats_secret', 
+  secret: process.env.SESSION_SECRET, 
   resave: false,
   saveUninitialized: false, 
   cookie: {
-    maxAge: 1000 * 60 * 60, // 1 hour
+    maxAge: 1000 * 60 , // 5 minutes
     httpOnly: true, 
     secure: false 
   }

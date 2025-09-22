@@ -4,6 +4,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { PostService } from '../../service/rest-backend/post-service';
 import { Post } from '../../models/post';
 import { marked } from 'marked';
+import { Router } from '@angular/router';
+import { NgZone } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 
 const iconPath = 'assets/leaflet/images/'; 
@@ -29,7 +31,7 @@ L.Marker.prototype.options.icon = iconDefault;
 })
 export class MapDisplay implements OnInit {
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService,  private router: Router, private ngZone: NgZone ) {}
 
   @Input() post: Post | null = null;  // show all posts
 
@@ -47,21 +49,35 @@ export class MapDisplay implements OnInit {
   layers: L.Layer[] = [];
 
 
-  ngOnInit(): void {
-      // all posts (homepage)
-      this.postService.getAllPosts().subscribe((posts: Post[]) => {
-        this.layers = posts.map((post) =>
-          L.marker([post.latitude, post.longitude])
-            .bindPopup(`
-              <b>${post.title}</b>${this.getDescriptionHtml(post)}
-              <a href="/posts/${post.id}" class="popup-link">Visualizza</a>
-            `)
-        );
+ngOnInit(): void {
+    this.postService.getAllPosts().subscribe((posts: Post[]) => {
+      this.layers = posts.map((post) => {
+        const marker = L.marker([post.latitude, post.longitude]);
+
+        marker.bindPopup(`
+          <b>${post.title}</b>${this.getDescriptionHtml(post)}
+          <a class="popup-link" data-id="${post.id}" style="color: blue; cursor: pointer;">Visualizza</a> 
+        `);
+
+        //using ngZone to handle the click event inside Angular context
+        marker.on('popupopen', () => {
+          const popupLink = document.querySelector('.popup-link[data-id="' + post.id + '"]'); // Select the link inside the popup
+          if (popupLink) {
+            popupLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.ngZone.run(() => {
+                this.router.navigate(['/posts', post.id]);
+              });
+            });
+          }
+        });
+
+        return marker;
       });
-    }
+    });
+  }
 
-
-   getDescriptionHtml(post: Post): SafeHtml {
+  getDescriptionHtml(post: Post): SafeHtml {
      return post ? marked.parse(post.description || '') as string : '';
   }
   

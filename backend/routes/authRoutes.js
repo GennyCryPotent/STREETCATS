@@ -35,6 +35,21 @@ authenticationRouter.post('/signup', async (req, res, next) => {
     }
 });
 
+// This route checks if the user is logged in
+authenticationRouter.get('/session', (req, res) => {
+if (req.session && req.session.auth) { // Check if session exists and user is authenticated
+        res.json({
+            loggedIn: true,
+            user: {
+                id: req.session.userId,
+                username: req.session.username
+            }
+        });
+    } else {
+        res.status(401).json({ loggedIn: false });
+    }
+});
+
 // This route handles user logout
 authenticationRouter.post('/logout', (req, res) => {
   req.session.destroy(err => {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,24 @@ export class AuthService {
         this.router.navigate(['/']);
       }
     });
+  }
+
+  // Check session status on app initialization
+  checkAuth(): Observable<boolean> {
+    return this.http.get<{ loggedIn: boolean; user?: { id: number; username: string } }>(
+      `${this.apiUrl}/session`,
+    ).pipe(
+      tap(response => {
+        this.isAuthenticatedState = response.loggedIn;
+        this.currentUser = response.user ?? null;
+      }),
+      map(response => response.loggedIn),
+      catchError(() => { // In case of error, assume not authenticated
+        this.isAuthenticatedState = false;
+        this.currentUser = null;
+        return of(false); 
+      })
+    );
   }
 
   isAuthenticated(): boolean {

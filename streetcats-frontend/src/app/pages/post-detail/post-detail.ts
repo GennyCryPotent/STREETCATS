@@ -75,9 +75,17 @@ export class PostDetail {
       this.commentText = '';
     },
     error: (err) => {
-      console.error('Error adding comment:', err);
-      this.toastr.error('Errore nell\'aggiunta del commento.', 'Errore');
+      if (err.status === 401) {
+        this.toastr.error('Effettua di nuovo il login', 'Sessione scaduta.');
+        this.router.navigate(['/auth']);
+        return;
+      }
+      else {
+        this.toastr.error('Errore nell\'aggiunta del commento.', 'Errore');
+      }
     }
+    
+    
   });
 }
 
@@ -99,8 +107,14 @@ export class PostDetail {
         this.post!.Comments = (this.post!.Comments ?? []).filter(c => c.id !== commentId);
       },
       error: (err) => {
+        if (err.status === 401) {
+          this.toastr.error('Effettua di nuovo il login', 'Sessione scaduta');
+          this.router.navigate(['/auth']);
+          return;
+        }else{
         console.error('Error deleting comment:', err);
         this.toastr.error('Errore nell\'eliminazione del commento.', 'Errore');
+        }
       }
     });
   }
