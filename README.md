@@ -14,7 +14,7 @@ Testing: Playwright
 To run the application locally, follow the steps below. Make sure you have Node.js and npm installed.
 
 ### File .env
-In the backend directory, rename the .env.dummy file to .env and edit it with the correct values. You can change the **PORT** and **TOKEN_SECRET** values and save the file, but you can also change the remaining values if you prefer.
+In the backend directory, rename the .env.dummy file to .env and edit it with the correct values. You can change the **PORT** and **SESSION_SECRET** values and save the file, but you can also change the remaining values if you prefer.
 
 ### Installation
 ```
@@ -31,8 +31,8 @@ cd streetcats-frontend
 npm install
 npm start
 ```
+**ℹ️ Note: If you encounter an "ERESOLVE could not resolve" error during installation, use npm install --legacy-peer-deps.**
 
-Note: If you encounter an "ERESOLVE could not resolve" error during installation, use npm install --legacy-peer-deps.
 
 ## E2E Testing
 The project includes complete end-to-end tests, written with Playwright, to ensure that critical functionalities work correctly.
@@ -44,6 +44,8 @@ npx playwright test --ui
 ```
 
 The --ui flag will open the Playwright graphical interface to visualize the tests in real-time.
+
+**ℹ️ Note: The tests only work if you uncomment line 46 in "index.js"**
 
 ## License
 © 2024 Genny Cry Potent. Licensed under the MIT license.
