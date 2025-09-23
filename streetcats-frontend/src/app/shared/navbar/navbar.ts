@@ -12,7 +12,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './navbar.scss'
 })
 export class Navbar {
-  constructor(public auth: AuthService, private toast: ToastrService) {}
+  username: string = '';
+
+  constructor(public auth: AuthService, private toast: ToastrService) {
+    this.username = this.auth.getUsername() || '';
+  }
 
   isHome() {
     return location.pathname === '/';

@@ -26,8 +26,15 @@
   transition: color 0.3s ease !important; 
 }
 
+.username {
+  color: #dcdcdc;
+  margin: 0 0 0 10px;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
 .logoLink:hover {
-  color: var(--site-primary) !important;
+  color: var(--site-cream) !important;
 }
 
 .navbarLink {
