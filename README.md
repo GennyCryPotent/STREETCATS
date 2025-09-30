@@ -45,7 +45,7 @@ npx playwright test --ui
 
 The --ui flag will open the Playwright graphical interface to visualize the tests in real-time.
 
-**ℹ️ Note: The tests only work if you uncomment line 46 in "index.js"**
+**ℹ️ Note: The tests only work if you uncomment line 46 in "index.js" of the backend and uncomment line 66 in "new-post.ts" of the frontend.**
 
 ## License
 © 2024 Genny Cry Potent. Licensed under the MIT license.
