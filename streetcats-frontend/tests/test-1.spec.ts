@@ -1,3 +1,8 @@
+/* IMPORTANT
+  The tests only work if you uncomment line 46 in "index.js" of the backend and uncomment line 66 in "new-post.ts" of the frontend.
+*/
+
+
 import { test, expect } from '@playwright/test';
 
 

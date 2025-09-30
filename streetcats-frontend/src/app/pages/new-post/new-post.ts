@@ -97,6 +97,8 @@ onImageSelected(event: Event) {
   resetForm() {
     this.title = '';
     this.description = '';
+    this.image = null;
+    this.imageUrl = '';
     this.latitude = 0;
     this.longitude = 0;
     this.gender = '';
