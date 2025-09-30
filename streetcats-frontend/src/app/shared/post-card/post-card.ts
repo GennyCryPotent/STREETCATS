@@ -15,9 +15,28 @@ export class PostCard {
   constructor(private sanitizer: DomSanitizer) {}
   @Input() post!: any;
 
+  private truncateText(text: string): string { // Truncate text to 100 characters without cutting words
+    if (!text || text.length <= 100) {
+      return text;
+    }
+    
+    let truncated = text.substring(0, 100);
+    const lastSpace = truncated.lastIndexOf(' ');
+    
+    
+    if (lastSpace !== -1) {
+        truncated = truncated.substring(0, lastSpace);
+    }
+
+    return truncated + '...';
+  }
+
 
   getDescriptionHtml(): SafeHtml {
-    return this.post ? this.sanitizer.bypassSecurityTrustHtml(marked.parse(this.post.description || '') as string): '';
+    const description = this.post?.description || '';
+    const truncatedDescription = this.truncateText(description);
+    const htmlContent = marked.parse(truncatedDescription) as string;
+    return this.sanitizer.bypassSecurityTrustHtml(htmlContent);
   }
 
   getImageUrl(path: string): string {

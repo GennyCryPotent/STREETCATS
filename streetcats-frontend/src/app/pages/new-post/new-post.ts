@@ -20,11 +20,12 @@ import { Post } from '../../models/post';
 export class NewPost {
   constructor(private router: Router, private toastr: ToastrService, private postService: PostService) {}
   @ViewChild('imageInput') imageInput!: ElementRef; // Reference to the image input element
+  readonly MAX_DESCRIPTION_LENGTH = 500; 
 
   latitude: number = 0;
   longitude: number = 0;
   title: string = '';
-  description: string = '';
+  description: string = ''; //max 500 characters
   image: File | null = null;
   imageUrl: string = ''; 
   gender: string = '';
@@ -62,7 +63,10 @@ onImageSelected(event: Event) {
   onSubmit() {
     if (!this.title || !this.description || !this.image || !this.latitude || !this.longitude || !this.gender) {
       this.toastr.error('Per favore, compila tutti i campi.');
-      this.resetForm();
+      //this.resetForm();
+    if (this.description.length > this.MAX_DESCRIPTION_LENGTH) {
+      this.toastr.error('La descrizione non può superare i 500 caratteri.');
+    }
       return;
     }
 
@@ -93,11 +97,13 @@ onImageSelected(event: Event) {
   resetForm() {
     this.title = '';
     this.description = '';
-    this.image = null;
-    this.imageUrl = '';
     this.latitude = 0;
     this.longitude = 0;
     this.gender = '';
   }
+
+   get descriptionLength(): number {
+    return this.description.length;
+  }
   
 }

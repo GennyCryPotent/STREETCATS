@@ -31,13 +31,28 @@
           <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea id="description" name="description" class="form-control" rows="5"
-              placeholder="Descrivi l'avvistamento..." required [(ngModel)]="description"></textarea>
+                placeholder="Descrivi l'avvistamento... massimo {{ MAX_DESCRIPTION_LENGTH }} caratteri" 
+                required 
+                [(ngModel)]="description"
+                [attr.maxlength]="MAX_DESCRIPTION_LENGTH" ></textarea>
+            <!--Massimo caratteri-->
+            <div class="d-flex justify-content-between">
+                <small class="text-muted">
+                    Caratteri usati: 
+                    <span 
+                        [class.text-danger]="descriptionLength > MAX_DESCRIPTION_LENGTH"
+                        [class.fw-bold]="descriptionLength > MAX_DESCRIPTION_LENGTH"
+                    >
+                        {{ descriptionLength }}
+                    </span> / {{ MAX_DESCRIPTION_LENGTH }}
+                </small>
 
-            <small class="text-muted">
-              Puoi usare <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown</a> per
-              grassetto (**testo**), corsivo (*testo*), titoli (# Titolo), link, ecc.
-            </small>
-          </div>
+                <small class="text-muted text-end">
+                    Puoi usare <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markdown</a> per
+                    grassetto (**testo**), corsivo (*testo*), titoli (# Titolo), link, ecc.
+                </small>
+            </div>
+          </div>
 
           <!-- Immagine -->
           <div class="mb-3">

@@ -47,6 +47,10 @@
   line-height: 1.6;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   font-size: 1.05rem;
+  
+  word-break: break-word;
+ 
+  overflow-wrap: break-word; 
 }
 
 /* Colonna laterale */

@@ -119,9 +119,11 @@ export class PostDetail {
     });
   }
 
-  getDescriptionHtml(): SafeHtml {
-    return this.post ? this.sanitizer.bypassSecurityTrustHtml(marked.parse(this.post.description || '') as string): '';
-  }
+   getDescriptionHtml(): string {
+    return this.post 
+      ? marked.parse(this.post.description || '') as string
+      : '';
+  }
 
   getImageUrl(path?: string): string {
     return path ? `http://localhost:3000${path}` : 'assets/default-cat.png';
